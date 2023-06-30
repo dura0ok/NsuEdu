@@ -1,0 +1,85 @@
+execve("./hello", ["./hello"], 0x7fffcb1330c0 /* 59 vars */) = 0  ->>>> filename, args, env variables return 0 != -1 all good, no errors
+brk(NULL)                               = 0x5641f0b3e000  ->> brk(NULL) is used to get the top of the data segment address, which is the heap start address. Hence, calling brk() with NULL returns, heap start address which is later used to allocate heap memory.
+
+arch_prctl(0x3001 /* ARCH_??? */, 0x7ffebf0e8690) = -1 EINVAL (Недопустимый аргумент)
+
+
+mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7efd3c723000
+
+       mmap() creates a new mapping in the virtual address space of the
+       calling process.  The starting address for the new mapping is
+       specified in addr.  The length argument specifies the length of
+       the mapping (which must be greater than 0).
+
+       If addr is NULL, then the kernel chooses the (page-aligned)
+       address at which to create the mapping; this is the most portable
+       method of creating a new mapping.  If addr is not NULL, then the
+       kernel takes it as a hint about where to place the mapping; on
+       Linux, the kernel will pick a nearby page boundary (but always
+       above or equal to the value specified by
+       /proc/sys/vm/mmap_min_addr) and attempt to create the mapping
+       there.  If another mapping already exists there, the kernel picks
+       a new address that may or may not depend on the hint.  The
+       address of the new mapping is returned as the result of the call.
+
+
+
+access("/etc/ld.so.preload", R_OK)      = -1 ENOENT (Нет такого файла или каталога)
+
+access(): This system call checks about file permissions. It has 2 parameters:
+
+    The first parameter is a filename for which permission has to be checked.
+    The second parameter is a mode, which specifies the accessibility check. Read, Write, and Executable accessibility are checked for a file. Here F_OK is for existence check and R_OK is for reading check.
+    If the return value is -1, which means checked file is not present.
+
+/etc/ld.so.preload
+    Файл, содержащий список разделённых пробелами динамических ELF библиотек, которые будут загружены перед программой. 
+
+
+openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+
+/etc/ld.so.cache
+    Файл, содержащий скомпилированный список каталогов, в которых производится поиск библиотек и сортированный список библиотек-кандидатов. 
+
+
+newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=84771, ...}, AT_EMPTY_PATH) = 0 // stat of so cache file 
+mmap(NULL, 84771, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7efd3c70e000 // load file and open file
+close(3)                                = 0
+openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3 // open libc
+read(3, "\177ELF\2\1\1\3\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0P\237\2\0\0\0\0\0"..., 832) = 832
+pread64(3, "\6\0\0\0\4\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0"..., 784, 64) = 784 // read with offset
+pread64(3, "\4\0\0\0 \0\0\0\5\0\0\0GNU\0\2\0\0\300\4\0\0\0\3\0\0\0\0\0\0\0"..., 48, 848) = 48
+pread64(3, "\4\0\0\0\24\0\0\0\3\0\0\0GNU\0i8\235HZ\227\223\333\350s\360\352,\223\340."..., 68, 896) = 68
+newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=2216304, ...}, AT_EMPTY_PATH) = 0
+pread64(3, "\6\0\0\0\4\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0"..., 784, 64) = 784
+mmap(NULL, 2260560, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7efd3c4e6000
+mmap(0x7efd3c50e000, 1658880, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x28000) = 0x7efd3c50e000
+mmap(0x7efd3c6a3000, 360448, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1bd000) = 0x7efd3c6a3000
+mmap(0x7efd3c6fb000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x214000) = 0x7efd3c6fb000
+mmap(0x7efd3c701000, 52816, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7efd3c701000
+close(3)                                = 0
+mmap(NULL, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7efd3c4e3000
+arch_prctl(ARCH_SET_FS, 0x7efd3c4e3740) = 0
+set_tid_address(0x7efd3c4e3a10)         = 10860 
+-> set threads option
+set_robust_list(0x7efd3c4e3a20, 24)     = 0
+rseq(0x7efd3c4e40e0, 0x20, 0, 0x53053053) = 0
+mprotect(0x7efd3c6fb000, 16384, PROT_READ) = 0 
+ -> mprotect(): This calls to set protection for different memory regions. PROT_READ is used to make memory regions readable.
+
+ 
+mprotect(0x5641eec6c000, 4096, PROT_READ) = 0
+mprotect(0x7efd3c75d000, 8192, PROT_READ) = 0
+prlimit64(0, RLIMIT_STACK, NULL, {rlim_cur=8192*1024, rlim_max=RLIM64_INFINITY}) = 0 // limit to use resource stack
+munmap(0x7efd3c70e000, 84771)           = 0 
+
+-> munmap(): This call to unmap file /etc/ld.so.cache. Address 0x7ff58cf81000 was mapped to ld.so.cache in line 7
+
+
+newfstatat(1, "", {st_mode=S_IFCHR|0620, st_rdev=makedev(0x88, 0), ...}, AT_EMPTY_PATH) = 0
+getrandom("\x7f\x2b\x17\x6f\x0f\x71\x3c\x52", 8, GRND_NONBLOCK) = 8
+brk(NULL)                               = 0x5641f0b3e000
+brk(0x5641f0b5f000)                     = 0x5641f0b5f000
+write(1, "Hello world", 11Hello world)             = 11
+exit_group(0)                           = ?
++++ exited with 0 +++

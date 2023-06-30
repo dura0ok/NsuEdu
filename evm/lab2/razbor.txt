@@ -1,0 +1,257 @@
+generate_random_in_range:
+        pushq   %rbp
+        movq    %rsp, %rbp # Пролог, запоминаем стэковый кадр потому что внутри вызываем подпрограмму rand
+        subq    $16, %rsp # выделяем память
+        movl    %edi, -4(%rbp)  #lower
+        movl    %esi, -8(%rbp) #upper   
+        call    rand
+        movl    -8(%rbp), %edx # Кладём upper в промежуточный регистр edx
+        subl    -4(%rbp), %edx # edx upper = upper - lower
+        leal    1(%rdx), %ecx # rdx + 1 = ecx
+        cltd    eax to sign-extend EAX -> EDX:EAX
+
+        #Unsigned divide %rdx:%rax by S
+        #Quotient stored in %rax
+        #Remainder stored in %rdx
+        idivl   %ecx # edx = (rand() % (upper - lower + 1))
+        movl    -4(%rbp), %eax # eax = lower
+
+        addl    %edx, %eax # lower + ( ........ )
+        leave # pop all local from stack
+        ret
+fill_array_random_numbers:
+        pushq   %rbp
+        movq    %rsp, %rbp
+        # Пролог, запоминаем стэковый кадр потому что внутри вызываем подпрограмму for
+        pushq   %rbx # пушим регистр чтобы сохранить знач функции
+        subq    $40, %rsp # Выделяем 40 байт ?? 0_0
+        movq    %rdi, -40(%rbp) # int *arr
+        movq    %rsi, -48(%rbp) # size_t n
+        movq    $0, -24(%rbp)   # size_t i
+        jmp     .L4 jump на метку
+.L5:
+        movq    -24(%rbp), %rax # i = 0 -> rax
+        leaq    0(,%rax,4), %rdx # rdx = rax*4 + 0
+        movq    -48(%rbp), %rax  # rax = n
+        leaq    (%rdx,%rax), %rbx # rbx = rds + rax
+        movl    $10000, %esi % second argument to esi
+        movl    $1, %edi % first argument to edi
+        call    generate_random_in_range # call function
+        movl    %eax, (%rbx) # Кладем по адресу результат из eax
+        addq    $1, -24(%rbp) # увеличиваем i на 1чку
+.L4:
+        movq    -24(%rbp), %rax # i = 0 -> rax
+        cmpq    -40(%rbp), %rax # сравниваем rax и pointer на arr
+        jb      .L5 # Если меньше, то прыгаем
+        nop     # простаивание чтобы такты процессора сравнять
+        nop
+        addq    $40, %rsp # восстанавливаем стек(все локальные переменные)
+        popq    %rbx
+        popq    %rbp
+        ret
+bubble_sort:
+        pushq   %rbp
+        movq    %rsp, %rbp  # дефолтный пролог
+
+        movq    %rdi, -24(%rbp) # int *arr
+        movl    %esi, -28(%rbp) #int * size
+        movl    $0, -4(%rbp) # int i = 0
+        jmp     .L7 jump l7
+.L11:
+        movl    -28(%rbp), %eax # copy size to eax
+        subl    $1, %eax # eax = size - 1
+        movl    %eax, -8(%rbp) # -8rbp = j.. j = size - 1;
+        jmp     .L8
+.L10:
+        # deeper loop
+        
+        # if (arr[j - 1] > arr[j]) 
+
+        # arr[j - 1]
+        movl    -8(%rbp), %eax # copy j
+        cltq    # eax to rax sign extended
+        salq    $2, %rax # rax * 4
+        leaq    -4(%rax), %rdx #[j - 1]
+        movq    -24(%rbp), %rax # arr
+        addq    %rdx, %rax #arr[j-1]
+        movl    (%rax), %edx # arr[j-1] to edx
+
+        # arr[j]
+        movl    -8(%rbp), %eax # copy j
+        cltq    # eax to rax sign extended
+        leaq    0(,%rax,4), %rcx # 4j
+        movq    -24(%rbp), %rax # arr
+        addq    %rcx, %rax # arr[j]
+        movl    (%rax), %eax #eax = arr[j]
+
+        if (arr[j - 1] > arr[j]) 
+        cmpl    %eax, %edx
+        jle     .L9
+
+        movl    -8(%rbp), %eax # copy j
+        cltq    # eax to rax sign extended
+        salq    $2, %rax # rax * 4
+        leaq    -4(%rax), %rdx # rdx = j - 1
+        movq    -24(%rbp), %rax #arr
+        addq    %rdx, %rax # arr[j-1]
+        movl    (%rax), %eax # eax(temp) = arr[j-1]
+        movl    %eax, -12(%rbp) # eax(temp) = arr[j-1]
+
+        # arr[j]
+        movl    -8(%rbp), %eax # copy j
+        cltq    # eax to rax sign extended
+        leaq    0(,%rax,4), %rdx # rax * 4 = rdx
+        movq    -24(%rbp), %rax # rax = arr
+        addq    %rdx, %rax # arr[j] = rax
+
+        #arr[j-1]
+        movl    -8(%rbp), %edx # copy j
+        movslq  %edx, %rdx # j to rdx
+        salq    $2, %rdx # j*4
+        leaq    -4(%rdx), %rcx # j - 1
+        movq    -24(%rbp), %rdx # rdx = arr
+        addq    %rcx, %rdx #arr[j-1]
+
+        movl    (%rax), %eax #arr[j-1] = arr[j]
+        movl    %eax, (%rdx) #arr[j-1] = arr[j]
+
+        #arr[j] = temp
+        movl    -8(%rbp), %eax # copy j
+        cltq    # eax to rax sign extended
+        leaq    0(,%rax,4), %rdx #j*4
+        movq    -24(%rbp), %rax # arr
+        addq    %rax, %rdx # arr[j]
+
+        # = temp
+        movl    -12(%rbp), %eax
+        movl    %eax, (%rdx) #arr[j](rdx) = temp(from eax)
+.L9:
+        subl    $1, -8(%rbp) # j--
+.L8: 
+ # for j loop
+ movl    -8(%rbp), %eax # j
+ cmpl    -4(%rbp), %eax  # i
+ jg      .L10 # j > i jump please
+ addl    $1, -4(%rbp) #i++
+.L7:
+        movl    -28(%rbp), %eax #int *size = eax
+        subl    $1, %eax # eax = size - 1
+        cmpl    %eax, -4(%rbp) # compare i < size
+        jl      .L11 # if less jump l11
+        nop
+        nop
+        popq    %rbp # освобождаем стек
+        ret
+.LC0:
+        .string "%d "
+print_array:
+        pushq   %rbp
+        movq    %rsp, %rbp # пролог
+        subq    $32, %rsp # выделяем 32 байта
+        movq    %rdi, -24(%rbp) # int *arr
+        movl    %esi, -28(%rbp) # size
+        movq    $0, -8(%rbp) # size_t i = 0
+        jmp     .L13
+.L14:
+        # тело цикла print_array
+        movq    -8(%rbp), %rax # i to rax
+        leaq    0(,%rax,4), %rdx # rdx = rax*4 + 0
+        movq    -24(%rbp), %rax # arr to rax
+        addq    %rdx, %rax # arr and смещение складываем
+        movl    (%rax), %eax # printf, put value from eax
+        movl    %eax, %esi # put to arg
+        movl    $.LC0, %edi # format arg to edi
+        movl    $0, %eax ??????????
+        call    printf
+        movl    $10, %edi # \n to arg
+        call    putchar # putchar :)
+        addq    $1, -8(%rbp) # push from stack, stack fixes
+.L13:
+        movl    -28(%rbp), %eax # size to eax
+        cltq    # sign extended double word to quadword
+        cmpq    %rax, -8(%rbp) # compare i and size
+        jb      .L14 # if i < size jump to l14
+        nop     # ничего не делать, происходит выравнивание тактов процессора
+        nop
+        leave # delete old from stack
+        ret
+.LC2:
+        .string "%f"
+main:
+        pushq   %rbp  
+        movq    %rsp, %rbp  # дефолтный пролог
+        subq    $64, %rsp # выделяем целый кусок 64 байта
+
+        movl    %edi, -52(%rbp) #argc
+        movq    %rsi, -64(%rbp) # argv
+        movl    $0, %edi # arg for time(0)
+        call    time 
+        movl    %eax, %edi # result time to edi(which arg in srand)
+        call    srand
+        cmpl    $1, -52(%rbp) # comparation argc and 2
+        jg      .L16  if argc < 2
+        movl    $1, %eax
+        jmp     .L18 # return 1
+.L16:
+        movq    -64(%rbp), %rax # rax = argv
+        addq    $8, %rax # rax = [1]
+        movq    (%rax), %rax $ put value from rax[1] to rax
+        movq    %rax, %rdi $ value put to rdi(arg atoi)
+        call    atoi
+        cltq    # convert to size_t, sign extended(doubleword to quadword)
+        movq    %rax, -8(%rbp) # n = result atoi
+        movq    -8(%rbp), %rax # n to rax
+        salq    $2, %rax # (n * 4)
+        movq    %rax, %rdi # pass n * 4 to arg rdi
+        call    malloc
+        movq    %rax, -16(%rbp) #arr = malloc
+        movq    -16(%rbp), %rdx # arr
+        movq    -8(%rbp), %rax # n
+        movq    %rdx, %rsi # pass to arg
+        movq    %rax, %rdi # pass to arg
+        call    fill_array_random_numbers
+        # clock_gettime prolog
+        leaq    -32(%rbp), %rax # copy pointer struct timespec start
+        movq    %rax, %rsi
+        movl    $4, %edi # CLOCK_MONOTONIC_RAW
+        call    clock_gettime
+
+        # bubble sort prolog
+        movq    -8(%rbp), %rax # n to rax
+        movl    %eax, %edx # (берем неявно кастим n(rax) к int eax часть rax)
+        movq    -16(%rbp), %rax # rax = arr
+        movl    %edx, %esi # n -> to esi arg
+        movq    %rax, %rdi # arr to rdi arg
+        call    bubble_sort
+
+        leaq    -48(%rbp), %rax # copy pointer struct timespec end
+        movq    %rax, %rsi
+        movl    $4, %edi # CLOCK_MONOTONIC_RAW
+        call    clock_gettime
+
+        movq    -48(%rbp), %rdx # end timespec
+        movq    -32(%rbp), %rax # start timespec
+        subq    %rax, %rdx # end.tv_sec-start.tv_sec to rdx
+        movq    %rdx, %rax # end.tv_sec-start.tv_sec to rax
+        cvtsi2sdq       %rax, %xmm1 # Convert Doubleword Integer to Scalar Double-Precision  Floating-Point Value
+        movq    -40(%rbp), %rdx # end tv_nsec
+        movq    -24(%rbp), %rax # start tv nsec
+        subq    %rax, %rdx # end.tv_nsec-start.tv_nsec -> rdx
+        movq    %rdx, %rax # end.tv_nsec-start.tv_nsec => rax
+        cvtsi2sdq       %rax, %xmm2 # convert to float
+        movsd   .LC1(%rip), %xmm0 # move 0.000000001 to xmm0
+        mulsd   %xmm2, %xmm0 # 0.000000001*(end.tv_nsec-start.tv_nsec)
+        addsd   %xmm1, %xmm0 # +
+        movl    $.LC2, %edi # print format
+        movl    $1, %eax # stdout = 1
+        call    printf
+        movq    -16(%rbp), %rax # pass arr to rax
+        movq    %rax, %rdi # pass arr to rdi
+        call    free
+        movl    $0, %eax # return code
+.L18:
+        leave
+        ret
+.LC1:
+        .long   3894859413
+        .long   1041313291

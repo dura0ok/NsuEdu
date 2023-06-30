@@ -1,0 +1,236 @@
+generate_random_in_range:
+
+        с пакетом  O1+ не будет создаваться стековый фрейм,  однако значения регистров edi esi надо сохранить, чтобы rand их не затёр, можно было бы записать их в стек, но потом для вычислений нужно было бы их снова доставать, поэтому они записываются в ebp ebx, которые будут сохранены вызываемой функцией
+        
+        pushq   %rbp
+        movl    %edi, %ebp # lower from edi
+        pushq   %rbx
+        movl    %esi, %ebx # upper from from esi
+        subl    %ebp, %ebx # ebx = upper # ebp = lower
+        subq    $8, %rsp # выделяем память под стэк
+
+
+        стек выравнивается по 16 байтовой границе перед вызовом функции, т.к. фрейм (в стандартном представлении) то не был создан, а вначале в стек положился адрес возврата, потом 2 восьмибайтовых регистра, логично что до 16 байтовой 
+
+        call    rand 
+        leal    1(%rbx), %esi  # upper - lower + 1 to esi
+        addq    $8, %rsp # stack fixed 0_0
+        cltd    # long to double
+        popq    %rbx 
+
+        idivl   %esi
+        leal    (%rdx,%rbp), %eax # + lower ?????????
+        popq    %rbp
+        ret
+fill_array_random_numbers:
+        testq   %rdi, %rdi # if size < 0
+        je      .L12 # ret
+        pushq   %rbp # push base pointer 
+        movq    %rsi, %rbp
+        pushq   %rbx
+        leaq    (%rsi,%rdi,4), %rbx # format call save register
+        subq    $8, %rsp # memory to call function
+.L6:
+        # inlining generate_random_in range
+        call    rand
+        addq    $4, %rbp # fix stack after call rand
+
+        # %
+        movslq  %eax, %rdx # rand result to rdx
+        movl    %eax, %ecx # eax = upper - lower + 1
+        imulq   $1759218605, %rdx, %rdx
+        sarl    $31, %ecx  # Arithmetic right shift destination by k bits / equals
+        sarq    $44, %rdx
+        subl    %ecx, %edx
+        imull   $10000, %edx, %edx
+        subl    %edx, %eax
+
+        addl    $1, %eax # lower + 1
+        movl    %eax, -4(%rbp)
+        # for loop start 
+        cmpq    %rbx, %rbp # rbx i 
+        jne     .L6
+        addq    $8, %rsp
+        popq    %rbx
+        popq    %rbp
+        ret
+.L12:
+        ret
+bubble_sort:
+        leal    -1(%rsi), %r8d # size -1 to %r8d(0-3bytes register)
+        testl   %r8d, %r8d # # comparing size -1
+        jle     .L15 # if less or equal zero return
+        xorl    %esi, %esi # esi = 0(i = 0)
+        movslq  %r8d, %r9 # size to 8 byte register move
+.L19:
+        movq    %r9, %rax # size to rax 8 byte register
+.L18:
+        movl    -4(%rdi,%rax,4), %edx # arr[j-1]
+        movl    (%rdi,%rax,4), %ecx # arr[j]
+        cmpl    %ecx, %edx # compare
+        jle     .L17 # if not compare ok
+        movl    %ecx, -4(%rdi,%rax,4) #  arr[j - 1] = arr[j]; 
+        movl    %edx, (%rdi,%rax,4) # arr[j] = temp;
+.L17:
+        subq    $1, %rax # j--
+        cmpl    %eax, %esi # j > i
+        jl      .L18 # ok go back
+        addl    $1, %esi # i++
+        cmpl    %esi, %r8d # i < size - 1
+        jne     .L19  # while i not equal size - 1
+.L15:
+        ret
+.LC0:
+        .string "%d "
+print_array:
+        movslq  %esi, %rsi # size to to size_t
+        testq   %rsi, %rsi # size with zero
+        je      .L30 # if equal ret
+        pushq   %rbp # save base pointer
+        leaq    (%rdi,%rsi,4), %rbp # create new base pointer
+        pushq   %rbx # save rbx
+        movq    %rdi, %rbx # arr to rbx(rbx 8 byte just because pointer)
+        subq    $8, %rsp # add memory for stack frame
+.L24:
+        movl    (%rbx), %esi # arr to printf arg
+        movl    $.LC0, %edi # %d to edi
+        xorl    %eax, %eax # eax = 0
+        addq    $4, %rbx # i ++ ??????
+        call    printf
+        movl    $10, %edi # \n to edi
+        call    putchar # printf("\n")
+        cmpq    %rbp, %rbx # i < size
+        jne     .L24 # if i < size ok repeat
+        addq    $8, %rsp # restore stack pointer
+        popq    %rbx 
+        popq    %rbp
+        ret
+.L30:
+        ret
+.LC2:
+        .string "%f"
+main:
+        pushq   %r13 # n (64 bit register)
+        pushq   %r12
+        pushq   %rbp # base pointer
+        movq    %rsi, %rbp # base pointer
+        pushq   %rbx 
+        movl    %edi, %ebx # arg to ebx 
+        xorl    %edi, %edi # ebx = 0
+        subq    $40, %rsp # memory extend
+        call    time
+        movq    %rax, %rdi # time(0)
+        call    srand
+        movl    $1, %eax # return value set if argc >= 2
+        cmpl    $1, %ebx # argc < 2 ?
+        jle     .L33 # if (argc < 2) return 1;
+        movq    8(%rbp), %rdi # argv[1]
+        movl    $10, %edx # edx = 10(strtol 10 base)
+        xorl    %esi, %esi # esi = 0
+        call    strtol 
+        movslq  %eax, %r13 # n
+        movq    %rax, %rbx # rbx = malloc
+        leaq    0(,%r13,4), %r12 # n * 4 to r12
+        movq    %r12, %rdi # to rdi 
+        call    malloc
+        movq    %rax, %rbp # rbp = arr
+        testq   %r13, %r13 # n = 0 ?
+        je      .L35 # n = 0
+        # fill array_random_numbers inline
+        movq    %rax, %r13 # arr to r13
+        addq    %rax, %r12 # arr[i++]
+.L36:
+        # inlining generate random in range
+        call    rand
+        addq    $4, %r13
+        movslq  %eax, %rdx
+        movl    %eax, %ecx
+        imulq   $1759218605, %rdx, %rdx # ~ 1 / C # Signed full multiply of %rax by S
+                                        Result stored in %rdx:%rax
+
+        sarl    $31, %ecx # сдвиг вправо самые правые биты уходят флаг Каждый сдвиг вправо эквивалентен делению знакового числа на 2, поэтому команду sar удобно использовать для деления операнда на целые степени 2. Команда воздействует на флаги OF, SF, ZF, AF, PF и CF.
+
+        sarq    $44, %rdx # right shift
+        subl    %ecx, %edx
+        imull   $10000, %edx, %edx
+        subl    %edx, %eax
+
+        # + lower
+        addl    $1, %eax
+        movl    %eax, -4(%r13)
+        
+        # inline fill
+        cmpq    %r12, %r13
+        jne     .L36
+        # clock get time start
+        movq    %rsp, %rsi
+        movl    $4, %edi
+        subl    $1, %ebx # buble sort # size - 1
+        call    clock_gettime
+
+        # bubble sort
+        testl   %ebx, %ebx # i < size - 1
+        jle     .L41
+        xorl    %esi, %esi # i = 0
+        movslq  %ebx, %rdi
+.L40:
+        movq    %rdi, %rax
+.L39:
+        movl    -4(%rbp,%rax,4), %edx # arr[j-1]
+        movl    0(%rbp,%rax,4), %ecx # arr[j]
+        cmpl    %ecx, %edx # arr[j - 1] > arr[j]
+        jle     .L38 # if not if 
+        movl    %ecx, -4(%rbp,%rax,4) arr[j - 1] = arr[j];
+        movl    %edx, 0(%rbp,%rax,4) # arr[j] = temp
+.L38:
+        subq    $1, %rax # j --
+        cmpl    %eax, %esi # j > i
+        jl      .L39 # j > i deeper loop
+        addl    $1, %esi # i++
+        cmpl    %ebx, %esi # i < size
+        jne     .L40 # if ok
+.L41:
+        leaq    16(%rsp), %rsi  # end
+        movl    $4, %edi # CLOCK_MONOTONIC_RAW
+        call    clock_gettime
+
+        # printf and nulling
+        movq    24(%rsp), %rax
+        pxor    %xmm0, %xmm0
+        subq    8(%rsp), %rax
+        cvtsi2sdq       %rax, %xmm0 # convert to floating-point
+        pxor    %xmm1, %xmm1 # xmm1 = 0
+        movq    16(%rsp), %rax #end nsec
+        subq    (%rsp), %rax # end - start
+        mulsd   .LC1(%rip), %xmm0 # 0.000000001 * ...
+        cvtsi2sdq       %rax, %xmm1 # res to float point
+        movl    $.LC2, %edi
+        movl    $1, %eax
+        addsd   %xmm1, %xmm0 # add in printf
+        call    printf
+        movq    %rbp, %rdi # rbp to rdi
+        call    free
+        
+        # eax 0 return 0
+        xorl    %eax, %eax
+.L33:
+        addq    $40, %rsp
+        popq    %rbx
+        popq    %rbp
+        popq    %r12
+        popq    %r13
+        ret
+.L35:
+        movq    %rsp, %rsi
+        movl    $4, %edi
+        call    clock_gettime
+        jmp     .L41
+.LC1:
+        .long   3894859413
+        .long   1041313291
+
+
+
+
+
+Переменная temp не создается на O3

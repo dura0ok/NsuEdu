@@ -1,0 +1,214 @@
+
+Iterations 1\n
+RUN 2\n
+Finished on: 8472
+Runtime = 8.390266
+\n\n
+RUN 4\n
+Finished on: 8273
+Runtime = 4.290338
+\n\n
+RUN 8\n
+Finished on: 8015
+Runtime = 2.433830
+\n\n
+RUN 16\n
+Finished on: 8025
+Runtime = 1.894283
+\n\n
+RUN 24\n
+Finished on: 8156
+Runtime = 1.907404
+\n\n
+Iterations 2\n
+RUN 2\n
+Finished on: 8472
+Runtime = 8.178408
+\n\n
+RUN 4\n
+Finished on: 8273
+Runtime = 4.302682
+\n\n
+RUN 8\n
+Finished on: 8015
+Runtime = 2.428485
+\n\n
+RUN 16\n
+Finished on: 8025
+Runtime = 1.903128
+\n\n
+RUN 24\n
+Finished on: 8156
+Runtime = 1.879149
+\n\n
+Iterations 3\n
+RUN 2\n
+Finished on: 8472
+Runtime = 8.177523
+\n\n
+RUN 4\n
+Finished on: 8273
+Runtime = 4.290602
+\n\n
+RUN 8\n
+Finished on: 8015
+Runtime = 2.427739
+\n\n
+RUN 16\n
+Finished on: 8025
+Runtime = 1.920631
+\n\n
+RUN 24\n
+Finished on: 8156
+Runtime = 1.879571
+\n\n
+Iterations 4\n
+RUN 2\n
+Finished on: 8472
+Runtime = 8.175183
+\n\n
+RUN 4\n
+Finished on: 8273
+Runtime = 4.312366
+\n\n
+RUN 8\n
+Finished on: 8015
+Runtime = 2.428011
+\n\n
+RUN 16\n
+Finished on: 8025
+Runtime = 1.940675
+\n\n
+RUN 24\n
+Finished on: 8156
+Runtime = 1.877748
+\n\n
+Iterations 5\n
+RUN 2\n
+Finished on: 8472
+Runtime = 8.173987
+\n\n
+RUN 4\n
+Finished on: 8273
+Runtime = 4.299778
+\n\n
+RUN 8\n
+Finished on: 8015
+Runtime = 2.423346
+\n\n
+RUN 16\n
+Finished on: 8025
+Runtime = 1.946461
+\n\n
+RUN 24\n
+Finished on: 8156
+Runtime = 1.872095
+\n\n
+Iterations 6\n
+RUN 2\n
+Finished on: 8472
+Runtime = 8.177677
+\n\n
+RUN 4\n
+Finished on: 8273
+Runtime = 4.298517
+\n\n
+RUN 8\n
+Finished on: 8015
+Runtime = 2.427019
+\n\n
+RUN 16\n
+Finished on: 8025
+Runtime = 1.935650
+\n\n
+RUN 24\n
+Finished on: 8156
+Runtime = 1.869187
+\n\n
+Iterations 7\n
+RUN 2\n
+Finished on: 8472
+Runtime = 8.174351
+\n\n
+RUN 4\n
+Finished on: 8273
+Runtime = 4.304782
+\n\n
+RUN 8\n
+Finished on: 8015
+Runtime = 2.426399
+\n\n
+RUN 16\n
+Finished on: 8025
+Runtime = 1.941091
+\n\n
+RUN 24\n
+Finished on: 8156
+Runtime = 1.869449
+\n\n
+Iterations 8\n
+RUN 2\n
+Finished on: 8472
+Runtime = 8.178500
+\n\n
+RUN 4\n
+Finished on: 8273
+Runtime = 4.284982
+\n\n
+RUN 8\n
+Finished on: 8015
+Runtime = 2.430157
+\n\n
+RUN 16\n
+Finished on: 8025
+Runtime = 1.935544
+\n\n
+RUN 24\n
+Finished on: 8156
+Runtime = 1.874458
+\n\n
+Iterations 9\n
+RUN 2\n
+Finished on: 8472
+Runtime = 8.174667
+\n\n
+RUN 4\n
+Finished on: 8273
+Runtime = 4.293812
+\n\n
+RUN 8\n
+Finished on: 8015
+Runtime = 2.436922
+\n\n
+RUN 16\n
+Finished on: 8025
+Runtime = 1.915339
+\n\n
+RUN 24\n
+Finished on: 8156
+Runtime = 1.877805
+\n\n
+Iterations 10\n
+RUN 2\n
+Finished on: 8472
+Runtime = 8.191173
+\n\n
+RUN 4\n
+Finished on: 8273
+Runtime = 4.302093
+\n\n
+RUN 8\n
+Finished on: 8015
+Runtime = 2.436920
+\n\n
+RUN 16\n
+Finished on: 8025
+Runtime = 1.922023
+\n\n
+RUN 24\n
+Finished on: 8156
+Runtime = 1.880000
+\n\n
+RUN 24 with trace\n
+Finished on: 8156
+Runtime = 2.011815

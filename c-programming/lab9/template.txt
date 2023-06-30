@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+    *{
+      margin: 0;
+      padding: 0;
+    }
+
+    body{
+      font-family: 'Raleway', sans-serif;
+    }
+
+    h1{
+      padding: 20px;
+      text-align: center;
+      color: green;
+    }
+
+    #matrix {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    #matrix td, #matrix th {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+
+    #matrix tr:nth-child(even){background-color: #f2f2f2;}
+
+    #matrix tr:hover {background-color: #ddd;}
+
+    #matrix tr:first-child th{
+        background: yellow;
+    }
+
+    #matrix tr th:first-child{
+            background: yellow;
+            width: 5%;
+    }
+
+    </style>
+<body>
+    <h1>Матрица смежности</h1>
+
+<table id="matrix">
+
+  :content
+</table>
+
+
+</body>
+</html>

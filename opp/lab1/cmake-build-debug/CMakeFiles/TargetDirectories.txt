@@ -1,0 +1,3 @@
+/home/durachok/workspace/slau/cmake-build-debug/CMakeFiles/slau.dir
+/home/durachok/workspace/slau/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/durachok/workspace/slau/cmake-build-debug/CMakeFiles/rebuild_cache.dir

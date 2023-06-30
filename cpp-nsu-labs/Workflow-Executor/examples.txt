@@ -1,0 +1,18 @@
+Example: #1
+
+--- conf.txt ---
+desc
+1 = readfile in.txt
+2 = grep kek
+3 = replace kek lol
+csed
+1 -> 2 -> 3
+---- in.txt ----
+test1
+test2 kek
+test3
+test4 kek
+
+Output:
+test2 lol
+test4 lol

@@ -1,0 +1,245 @@
+generate_random_in_range:
+        push    {r7, lr}
+        sub     sp, sp, #8 // 8 bytes extract
+        add     r7, sp, #0 
+
+        str     r0, [r7, #4] // upper = r7 + 4
+        str     r1, [r7] // lower = r7
+
+        bl      rand // -> r0
+        ldr     r2, [r7] // r2 = lower
+        ldr     r3, [r7, #4] // r3 = upper
+        subs    r3, r2, r3 // r3 = r2 - r3 = upper - lower
+        adds    r3, r3, #1 / r3 = upper - lower + 1
+        mov     r1, r3 / upper - lower + 1 -> r1 copy
+        bl      __aeabi_idivmod // %
+        mov     r3, r1
+        mov     r2, r3
+        ldr     r3, [r7, #4]
+        add     r3, r3, r2
+        mov     r0, r3
+        adds    r7, r7, #8
+        mov     sp, r7
+        pop     {r7, pc}
+fill_array_random_numbers:
+        push    {r4, r7, lr}
+        sub     sp, sp, #20
+        add     r7, sp, #0
+        str     r0, [r7, #4]
+        str     r1, [r7]
+        movs    r3, #0
+        str     r3, [r7, #12]
+        b       .L4
+.L5:
+        ldr     r3, [r7, #12]
+        lsls    r3, r3, #2
+        ldr     r2, [r7]
+        adds    r4, r2, r3
+        movw    r1, #10000
+        movs    r0, #1
+        bl      generate_random_in_range
+        mov     r3, r0
+        str     r3, [r4]
+        ldr     r3, [r7, #12]
+        adds    r3, r3, #1
+        str     r3, [r7, #12]
+.L4:
+        ldr     r2, [r7, #12]
+        ldr     r3, [r7, #4]
+        cmp     r2, r3
+        bcc     .L5
+        nop
+        nop
+        adds    r7, r7, #20
+        mov     sp, r7
+        pop     {r4, r7, pc}
+bubble_sort:
+        push    {r7}
+        sub     sp, sp, #28
+        add     r7, sp, #0
+        str     r0, [r7, #4]
+        str     r1, [r7]
+        movs    r3, #0
+        str     r3, [r7, #20]
+        b       .L7
+.L11:
+        ldr     r3, [r7]
+        subs    r3, r3, #1
+        str     r3, [r7, #16]
+        b       .L8
+.L10:
+        ldr     r3, [r7, #16]
+        add     r3, r3, #1073741824
+        subs    r3, r3, #1
+        lsls    r3, r3, #2
+        ldr     r2, [r7, #4]
+        add     r3, r3, r2
+        ldr     r2, [r3]
+        ldr     r3, [r7, #16]
+        lsls    r3, r3, #2
+        ldr     r1, [r7, #4]
+        add     r3, r3, r1
+        ldr     r3, [r3]
+        cmp     r2, r3
+        ble     .L9
+        ldr     r3, [r7, #16]
+        add     r3, r3, #1073741824
+        subs    r3, r3, #1
+        lsls    r3, r3, #2
+        ldr     r2, [r7, #4]
+        add     r3, r3, r2
+        ldr     r3, [r3]
+        str     r3, [r7, #12]
+        ldr     r3, [r7, #16]
+        lsls    r3, r3, #2
+        ldr     r2, [r7, #4]
+        add     r2, r2, r3
+        ldr     r3, [r7, #16]
+        add     r3, r3, #1073741824
+        subs    r3, r3, #1
+        lsls    r3, r3, #2
+        ldr     r1, [r7, #4]
+        add     r3, r3, r1
+        ldr     r2, [r2]
+        str     r2, [r3]
+        ldr     r3, [r7, #16]
+        lsls    r3, r3, #2
+        ldr     r2, [r7, #4]
+        add     r3, r3, r2
+        ldr     r2, [r7, #12]
+        str     r2, [r3]
+.L9:
+        ldr     r3, [r7, #16]
+        subs    r3, r3, #1
+        str     r3, [r7, #16]
+.L8:
+        ldr     r2, [r7, #16]
+        ldr     r3, [r7, #20]
+        cmp     r2, r3
+        bgt     .L10
+        ldr     r3, [r7, #20]
+        adds    r3, r3, #1
+        str     r3, [r7, #20]
+.L7:
+        ldr     r3, [r7]
+        subs    r3, r3, #1
+        ldr     r2, [r7, #20]
+        cmp     r2, r3
+        blt     .L11
+        nop
+        nop
+        adds    r7, r7, #28
+        mov     sp, r7
+        ldr     r7, [sp], #4
+        bx      lr
+.LC0:
+        .ascii  "%d \000"
+print_array:
+        push    {r7, lr}
+        sub     sp, sp, #16
+        add     r7, sp, #0
+        str     r0, [r7, #4]
+        str     r1, [r7]
+        movs    r3, #0
+        str     r3, [r7, #12]
+        b       .L13
+.L14:
+        ldr     r3, [r7, #12]
+        lsls    r3, r3, #2
+        ldr     r2, [r7, #4]
+        add     r3, r3, r2
+        ldr     r3, [r3]
+        mov     r1, r3
+        movw    r0, #:lower16:.LC0
+        movt    r0, #:upper16:.LC0
+        bl      printf
+        movs    r0, #10
+        bl      putchar
+        ldr     r3, [r7, #12]
+        adds    r3, r3, #1
+        str     r3, [r7, #12]
+.L13:
+        ldr     r3, [r7]
+        ldr     r2, [r7, #12]
+        cmp     r2, r3
+        bcc     .L14
+        nop
+        nop
+        adds    r7, r7, #16
+        mov     sp, r7
+        pop     {r7, pc}
+.LC1:
+        .ascii  "%f\000"
+main:
+        push    {r7, lr}
+        sub     sp, sp, #32
+        add     r7, sp, #0
+        str     r0, [r7, #4]
+        str     r1, [r7]
+        movs    r0, #0
+        bl      time
+        mov     r3, r0
+        mov     r0, r3
+        bl      srand
+        ldr     r3, [r7, #4]
+        cmp     r3, #1
+        bgt     .L16
+        movs    r3, #1
+        b       .L18
+.L16:
+        ldr     r3, [r7]
+        adds    r3, r3, #4
+        ldr     r3, [r3]
+        mov     r0, r3
+        bl      atoi
+        mov     r3, r0
+        str     r3, [r7, #28]
+        ldr     r3, [r7, #28]
+        lsls    r3, r3, #2
+        mov     r0, r3
+        bl      malloc
+        mov     r3, r0
+        str     r3, [r7, #24]
+        ldr     r1, [r7, #24]
+        ldr     r0, [r7, #28]
+        bl      fill_array_random_numbers
+        add     r3, r7, #16
+        mov     r1, r3
+        movs    r0, #4
+        bl      clock_gettime
+        ldr     r3, [r7, #28]
+        mov     r1, r3
+        ldr     r0, [r7, #24]
+        bl      bubble_sort
+        add     r3, r7, #8
+        mov     r1, r3
+        movs    r0, #4
+        bl      clock_gettime
+        ldr     r2, [r7, #8]
+        ldr     r3, [r7, #16]
+        subs    r3, r2, r3
+        vmov    s15, r3 @ int
+        vcvt.f64.s32    d17, s15
+        ldr     r2, [r7, #12]
+        ldr     r3, [r7, #20]
+        subs    r3, r2, r3
+        vmov    s15, r3 @ int
+        vcvt.f64.s32    d16, s15
+        vldr.64 d18, .L19
+        vmul.f64        d16, d16, d18
+        vadd.f64        d16, d17, d16
+        vmov    r2, r3, d16
+        movw    r0, #:lower16:.LC1
+        movt    r0, #:upper16:.LC1
+        bl      printf
+        ldr     r0, [r7, #24]
+        bl      free
+        movs    r3, #0
+.L18:
+        mov     r0, r3
+        adds    r7, r7, #32
+        mov     sp, r7
+        pop     {r7, pc}
+.L19:
+        .word   -400107883
+        .word   1041313291

@@ -1,0 +1,479 @@
+execve("/usr/bin/wget", ["wget", "kernel.org"], 0x7ffcb6b05428 /* 59 vars */) = 0
+brk(NULL)                               = 0x5643facc5000
+arch_prctl(0x3001 /* ARCH_??? */, 0x7ffec8de1110) = -1 EINVAL (Недопустимый аргумент)
+mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7f3185830000
+access("/etc/ld.so.preload", R_OK)      = -1 ENOENT (Нет такого файла или каталога)
+openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=84771, ...}, AT_EMPTY_PATH) = 0
+mmap(NULL, 84771, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7f318581b000
+close(3)                                = 0
+
+openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libpcre2-8.so.0", O_RDONLY|O_CLOEXEC) = 3  
+
+like regular expressions
+
+
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\0\0\0\0\0\0\0\0"..., 832) = 832
+newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=613064, ...}, AT_EMPTY_PATH) = 0
+mmap(NULL, 615184, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7f3185784000
+mmap(0x7f3185786000, 438272, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x2000) = 0x7f3185786000
+mmap(0x7f31857f1000, 163840, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x6d000) = 0x7f31857f1000
+mmap(0x7f3185819000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x94000) = 0x7f3185819000
+close(3)                                = 0
+openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libuuid.so.1", O_RDONLY|O_CLOEXEC) = 3
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\0\0\0\0\0\0\0\0"..., 832) = 832
+newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=30920, ...}, AT_EMPTY_PATH) = 0
+mmap(NULL, 32808, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7f318577b000
+mmap(0x7f318577d000, 16384, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x2000) = 0x7f318577d000
+mmap(0x7f3185781000, 4096, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x6000) = 0x7f3185781000
+mmap(0x7f3185782000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x6000) = 0x7f3185782000
+close(3)                                = 0
+openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libidn2.so.0", O_RDONLY|O_CLOEXEC) = 3
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\0\0\0\0\0\0\0\0"..., 832) = 832
+newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=129096, ...}, AT_EMPTY_PATH) = 0
+mmap(NULL, 131088, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7f318575a000
+mmap(0x7f318575c000, 16384, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x2000) = 0x7f318575c000
+mmap(0x7f3185760000, 102400, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x6000) = 0x7f3185760000
+mmap(0x7f3185779000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1e000) = 0x7f3185779000
+close(3)                                = 0
+openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libssl.so.3", O_RDONLY|O_CLOEXEC) = 3
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\0\0\0\0\0\0\0\0"..., 832) = 832
+newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=667864, ...}, AT_EMPTY_PATH) = 0
+mmap(NULL, 669680, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7f31856b6000
+mmap(0x7f31856d4000, 372736, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1e000) = 0x7f31856d4000
+mmap(0x7f318572f000, 118784, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x79000) = 0x7f318572f000
+mmap(0x7f318574c000, 57344, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x95000) = 0x7f318574c000
+close(3)                                = 0
+openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libcrypto.so.3", O_RDONLY|O_CLOEXEC) = 3
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\0\0\0\0\0\0\0\0"..., 832) = 832
+newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=4447536, ...}, AT_EMPTY_PATH) = 0
+mmap(NULL, 4461760, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7f3185274000
+mmap(0x7f3185326000, 2478080, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0xb2000) = 0x7f3185326000
+mmap(0x7f3185583000, 860160, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x30f000) = 0x7f3185583000
+mmap(0x7f3185655000, 385024, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x3e0000) = 0x7f3185655000
+mmap(0x7f31856b3000, 9408, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7f31856b3000
+close(3)                                = 0
+openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libz.so.1", O_RDONLY|O_CLOEXEC) = 3
+read(3, "\177ELF\2\1\1\3\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\0\0\0\0\0\0\0\0"..., 832) = 832
+newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=108936, ...}, AT_EMPTY_PATH) = 0
+mmap(NULL, 110776, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7f3185258000
+mprotect(0x7f318525a000, 98304, PROT_NONE) = 0
+mmap(0x7f318525a000, 69632, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x2000) = 0x7f318525a000
+mmap(0x7f318526b000, 24576, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x13000) = 0x7f318526b000
+mmap(0x7f3185272000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x19000) = 0x7f3185272000
+close(3)                                = 0
+mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7f3185256000
+openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libpsl.so.5", O_RDONLY|O_CLOEXEC) = 3
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\0\0\0\0\0\0\0\0"..., 832) = 832
+newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=75768, ...}, AT_EMPTY_PATH) = 0
+mmap(NULL, 77840, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7f3185242000
+mmap(0x7f3185244000, 8192, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x2000) = 0x7f3185244000
+mmap(0x7f3185246000, 57344, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x4000) = 0x7f3185246000
+mmap(0x7f3185254000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x11000) = 0x7f3185254000
+close(3)                                = 0
+openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+read(3, "\177ELF\2\1\1\3\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0P\237\2\0\0\0\0\0"..., 832) = 832
+pread64(3, "\6\0\0\0\4\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0"..., 784, 64) = 784
+pread64(3, "\4\0\0\0 \0\0\0\5\0\0\0GNU\0\2\0\0\300\4\0\0\0\3\0\0\0\0\0\0\0"..., 48, 848) = 48
+pread64(3, "\4\0\0\0\24\0\0\0\3\0\0\0GNU\0i8\235HZ\227\223\333\350s\360\352,\223\340."..., 68, 896) = 68
+newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=2216304, ...}, AT_EMPTY_PATH) = 0
+pread64(3, "\6\0\0\0\4\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0"..., 784, 64) = 784
+mmap(NULL, 2260560, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7f318501a000
+mmap(0x7f3185042000, 1658880, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x28000) = 0x7f3185042000
+mmap(0x7f31851d7000, 360448, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1bd000) = 0x7f31851d7000
+mmap(0x7f318522f000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x214000) = 0x7f318522f000
+mmap(0x7f3185235000, 52816, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7f3185235000
+close(3)                                = 0
+openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libunistring.so.2", O_RDONLY|O_CLOEXEC) = 3
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\0\0\0\0\0\0\0\0"..., 832) = 832
+newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=1743016, ...}, AT_EMPTY_PATH) = 0
+mmap(NULL, 1743080, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7f3184e70000
+mmap(0x7f3184e81000, 221184, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x11000) = 0x7f3184e81000
+mmap(0x7f3184eb7000, 1433600, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x47000) = 0x7f3184eb7000
+mmap(0x7f3185015000, 20480, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1a5000) = 0x7f3185015000
+close(3)                                = 0
+mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7f3184e6e000
+arch_prctl(ARCH_SET_FS, 0x7f3184e6ed40) = 0
+set_tid_address(0x7f3184e6f010)         = 9736
+set_robust_list(0x7f3184e6f020, 24)     = 0
+rseq(0x7f3184e6f6e0, 0x20, 0, 0x53053053) = 0
+mprotect(0x7f318522f000, 16384, PROT_READ) = 0
+mprotect(0x7f3185015000, 16384, PROT_READ) = 0
+mprotect(0x7f3185779000, 4096, PROT_READ) = 0
+mprotect(0x7f3185254000, 4096, PROT_READ) = 0
+mprotect(0x7f3185272000, 4096, PROT_READ) = 0
+mprotect(0x7f3185655000, 372736, PROT_READ) = 0
+mprotect(0x7f318574c000, 40960, PROT_READ) = 0
+mprotect(0x7f3185782000, 4096, PROT_READ) = 0
+mprotect(0x7f3185819000, 4096, PROT_READ) = 0
+mprotect(0x5643fac27000, 12288, PROT_READ) = 0
+mprotect(0x7f318586a000, 8192, PROT_READ) = 0
+prlimit64(0, RLIMIT_STACK, NULL, {rlim_cur=8192*1024, rlim_max=RLIM64_INFINITY}) = 0
+munmap(0x7f318581b000, 84771)           = 0
+getrandom("\x34\xde\xa7\x83\xdf\xee\x6c\x65", 8, GRND_NONBLOCK) = 8
+brk(NULL)                               = 0x5643facc5000
+brk(0x5643face6000)                     = 0x5643face6000
+openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=5721376, ...}, AT_EMPTY_PATH) = 0
+mmap(NULL, 5721376, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7f31848f9000
+close(3)                                = 0
+newfstatat(AT_FDCWD, "/etc/wgetrc", {st_mode=S_IFREG|0644, st_size=4942, ...}, 0) = 0
+getuid()                                = 1000
+getgroups(65536, [4, 24, 27, 30, 46, 107, 115, 136, 1000]) = 9
+openat(AT_FDCWD, "/etc/wgetrc", O_RDONLY) = 3
+newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=4942, ...}, AT_EMPTY_PATH) = 0
+newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=4942, ...}, AT_EMPTY_PATH) = 0
+read(3, "###\n### Sample Wget initializati"..., 4096) = 4096
+read(3, "ruct = off\n\n# You can turn on re"..., 4096) = 846
+read(3, "", 4096)                       = 0
+close(3)                                = 0
+newfstatat(AT_FDCWD, "/home/durachok/.wgetrc", 0x7ffec8de0ed0, 0) = -1 ENOENT (Нет такого файла или каталога)
+
+conf file wgetrc
+
+ioctl(2, TCGETS, {B38400 opost isig icanon echo ...}) = 0
+ioctl(0, TCGETS, {B38400 opost isig icanon echo ...}) = 0
+ioctl(2, TCGETS, {B38400 opost isig icanon echo ...}) = 0
+rt_sigaction(SIGHUP, {sa_handler=SIG_IGN, sa_mask=[HUP], sa_flags=SA_RESTORER|SA_RESTART, sa_restorer=0x7f318505c520}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+rt_sigaction(SIGHUP, {sa_handler=0x5643fabd8c80, sa_mask=[HUP], sa_flags=SA_RESTORER|SA_RESTART, sa_restorer=0x7f318505c520}, {sa_handler=SIG_IGN, sa_mask=[HUP], sa_flags=SA_RESTORER|SA_RESTART, sa_restorer=0x7f318505c520}, 8) = 0
+rt_sigaction(SIGUSR1, {sa_handler=0x5643fabd8c80, sa_mask=[USR1], sa_flags=SA_RESTORER|SA_RESTART, sa_restorer=0x7f318505c520}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+rt_sigaction(SIGPIPE, {sa_handler=SIG_IGN, sa_mask=[PIPE], sa_flags=SA_RESTORER|SA_RESTART, sa_restorer=0x7f318505c520}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+rt_sigaction(SIGWINCH, {sa_handler=0x5643fabd8ce0, sa_mask=[WINCH], sa_flags=SA_RESTORER|SA_RESTART, sa_restorer=0x7f318505c520}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+newfstatat(AT_FDCWD, "/home/durachok/.wget-hsts", {st_mode=S_IFREG|0664, st_size=165, ...}, 0) = 0
+getuid()                                 = 1000  # get
+newfstatat(AT_FDCWD, "/home/durachok/.wget-hsts", {st_mode=S_IFREG|0664, st_size=165, ...}, 0) = 0
+openat(AT_FDCWD, "/home/durachok/.wget-hsts", O_RDONLY) = 3
+newfstatat(3, "", {st_mode=S_IFREG|0664, st_size=165, ...}, AT_EMPTY_PATH) = 0
+newfstatat(3, "", {st_mode=S_IFREG|0664, st_size=165, ...}, AT_EMPTY_PATH) = 0
+read(3, "# HSTS 1.0 Known Hosts database "..., 4096) = 165
+read(3, "", 4096)                       = 0
+newfstatat(3, "", {st_mode=S_IFREG|0664, st_size=165, ...}, AT_EMPTY_PATH) = 0
+close(3)                                = 0
+ioctl(0, TIOCGPGRP, [9733])             = 0
+getpgrp()                               = 9733
+write(2, "URL transformed to HTTPS due to "..., 47URL transformed to HTTPS due to an HSTS policy
+) = 47
+statfs(".", {f_type=EXT2_SUPER_MAGIC, f_bsize=4096, f_blocks=33123802, f_bfree=31183311, f_bavail=29482511, f_files=8486912, f_ffree=8406414, f_fsid={val=[0x1404dccd, 0x882a3ddc]}, f_namelen=255, f_frsize=4096, f_flags=ST_VALID|ST_RELATIME}) = 0
+openat(AT_FDCWD, "/usr/lib/x86_64-linux-gnu/gconv/gconv-modules.cache", O_RDONLY) = 3
+newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=27002, ...}, AT_EMPTY_PATH) = 0
+mmap(NULL, 27002, PROT_READ, MAP_SHARED, 3, 0) = 0x7f3185829000
+close(3)                                = 0
+futex(0x7f3185234a6c, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+
+Системный вызов sys_futex обеспечивает программный метод для ожидания изменения значения указанного адреса памяти и метод пробуждения всех ожидающих на определенном адресе (хотя адреса для одного и того же участка памяти в разных процессах могут быть не идентичны, ядро распределяет их внутренне так, что один участок памяти, распределенный разными методами, будет соответствовать одинм вызовам sys_futex). Обычно это используется для реализации случаев споров за блокировку разделяемой памяти, как это описано в futex(4). 
+
+
+newfstatat(AT_FDCWD, "index.html", 0x7ffec8de0830, 0) = -1 ENOENT (Нет такого файла или каталога)
+newfstatat(AT_FDCWD, "index.html", 0x7ffec8de09a0, 0) = -1 ENOENT (Нет такого файла или каталога)
+openat(AT_FDCWD, "/etc/localtime", O_RDONLY|O_CLOEXEC) = 3
+newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=1221, ...}, AT_EMPTY_PATH) = 0
+newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=1221, ...}, AT_EMPTY_PATH) = 0
+read(3, "TZif2\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\n\0\0\0\0"..., 4096) = 1221
+lseek(3, -751, SEEK_CUR)                = 470
+read(3, "TZif2\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\n\0\0\0\0"..., 4096) = 751
+close(3)                                = 0
+ioctl(0, TIOCGPGRP, [9733])             = 0
+getpgrp()                               = 9733
+write(2, "--2023-02-20 16:41:04--  https:/"..., 45--2023-02-20 16:41:04--  https://kernel.org/
+) = 45
+futex(0x7f31856b2ba4, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+futex(0x7f31856b2ba0, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+futex(0x7f31856b2b9c, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+futex(0x7f31856b2ef0, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+futex(0x7f31856b2b94, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+futex(0x7f31856b2b90, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+futex(0x7f31856b2778, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+futex(0x7f31856b2a00, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+futex(0x7f31856b2748, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+futex(0x7f31856b2b98, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+openat(AT_FDCWD, "/usr/lib/ssl/openssl.cnf", O_RDONLY) = 3
+futex(0x7f31856b24d0, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=12419, ...}, AT_EMPTY_PATH) = 0
+read(3, "#\n# OpenSSL example configuratio"..., 4096) = 4096
+read(3, "r type CA, the listed attributes"..., 4096) = 4096
+read(3, "r:copy\n\n# DER hex encoding of an"..., 4096) = 4096
+read(3, "ertout # insta.cert.pem\n\n[ssl_se"..., 4096) = 131
+read(3, "", 4096)                       = 0
+close(3)                                = 0
+futex(0x7f31856b2920, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+futex(0x7f31856b2b80, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+futex(0x7f31856b2b7c, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+futex(0x7f31856b270c, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+futex(0x7f31856b2b8c, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+futex(0x7f31857597c0, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+sysinfo({uptime=1595, loads=[42880, 40608, 31584], totalram=16637313024, freeram=10628485120, sharedram=580239360, bufferram=126140416, totalswap=2147479552, freeswap=2147479552, procs=1038, totalhigh=0, freehigh=0, mem_unit=1}) = 0
+futex(0x7f31857597d4, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+newfstatat(AT_FDCWD, "/home/durachok/.rnd", 0x7ffec8ddff90, 0) = -1 ENOENT (Нет такого файла или каталога)
+futex(0x7f31856b2f20, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+brk(0x5643fad0b000)                     = 0x5643fad0b000
+getpid()                                = 9736
+brk(0x5643fad2d000)                     = 0x5643fad2d000
+brk(0x5643fad52000)                     = 0x5643fad52000
+brk(0x5643fad73000)                     = 0x5643fad73000
+getrandom("\x40\x3f\x96\xb3\x75\xd0\x1f\x2c\x58\x55\xe2\x07\x2d\x74\x35\xbf\xd7\x2d\x14\x2b\x2c\x42\x1a\x60\x0c\xae\xdb\xe6\x35\x7b\xae\x8e"..., 48, 0) = 48
+futex(0x7f31857597d0, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+futex(0x7f31857597c8, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+brk(0x5643fad95000)                     = 0x5643fad95000
+getpid()                                = 9736
+getpid()                                = 9736
+getpid()                                = 9736
+getpid()                                = 9736
+getpid()                                = 9736
+getpid()                                = 9736
+getpid()                                = 9736
+getpid()                                = 9736
+getpid()                                = 9736
+getpid()                                = 9736
+openat(AT_FDCWD, "/usr/lib/ssl/cert.pem", O_RDONLY) = -1 ENOENT (Нет такого файла или каталога)
+newfstatat(AT_FDCWD, "/home/durachok/.netrc", 0x7ffec8ddffe0, 0) = -1 ENOENT (Нет такого файла или каталога)
+openat(AT_FDCWD, "/usr/share/locale/locale.alias", O_RDONLY|O_CLOEXEC) = 3
+newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=2996, ...}, AT_EMPTY_PATH) = 0
+read(3, "# Locale name alias data base.\n#"..., 4096) = 2996
+read(3, "", 4096)                       = 0
+close(3)                                = 0
+openat(AT_FDCWD, "/usr/share/locale/ru/LC_MESSAGES/wget.mo", O_RDONLY) = -1 ENOENT (Нет такого файла или каталога)
+openat(AT_FDCWD, "/usr/share/locale-langpack/ru/LC_MESSAGES/wget.mo", O_RDONLY) = 3
+newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=99748, ...}, AT_EMPTY_PATH) = 0
+mmap(NULL, 99748, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7f31848e0000
+close(3)                                = 0
+ioctl(0, TIOCGPGRP, [9733])             = 0
+getpgrp()                               = 9733
+write(2, "\320\240\320\260\321\201\320\277\320\276\320\267\320\275\320\260\321\221\321\202\321\201\321\217 kernel."..., 52Распознаётся kernel.org (kernel.org)… ) = 52
+socket(AF_UNIX, SOCK_STREAM|SOCK_CLOEXEC|SOCK_NONBLOCK, 0) = 3
+connect(3, {sa_family=AF_UNIX, sun_path="/var/run/nscd/socket"}, 110) = -1 ENOENT (Нет такого файла или каталога)
+close(3)                                = 0
+socket(AF_UNIX, SOCK_STREAM|SOCK_CLOEXEC|SOCK_NONBLOCK, 0) = 3
+connect(3, {sa_family=AF_UNIX, sun_path="/var/run/nscd/socket"}, 110) = -1 ENOENT (Нет такого файла или каталога)
+close(3)                                = 0
+newfstatat(AT_FDCWD, "/etc/nsswitch.conf", {st_mode=S_IFREG|0644, st_size=553, ...}, 0) = 0
+newfstatat(AT_FDCWD, "/", {st_mode=S_IFDIR|0755, st_size=4096, ...}, 0) = 0
+openat(AT_FDCWD, "/etc/nsswitch.conf", O_RDONLY|O_CLOEXEC) = 3
+newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=553, ...}, AT_EMPTY_PATH) = 0
+read(3, "# /etc/nsswitch.conf\n#\n# Example"..., 4096) = 553
+read(3, "", 4096)                       = 0
+newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=553, ...}, AT_EMPTY_PATH) = 0
+close(3)                                = 0
+newfstatat(AT_FDCWD, "/etc/resolv.conf", {st_mode=S_IFREG|0644, st_size=930, ...}, 0) = 0
+openat(AT_FDCWD, "/etc/host.conf", O_RDONLY|O_CLOEXEC) = 3
+newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=92, ...}, AT_EMPTY_PATH) = 0
+read(3, "# The \"order\" line is only used "..., 4096) = 92
+read(3, "", 4096)                       = 0
+close(3)                                = 0
+futex(0x7f318523c32c, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+openat(AT_FDCWD, "/etc/resolv.conf", O_RDONLY|O_CLOEXEC) = 3
+newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=930, ...}, AT_EMPTY_PATH) = 0
+read(3, "# This is /run/systemd/resolve/s"..., 4096) = 930
+read(3, "", 4096)                       = 0
+newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=930, ...}, AT_EMPTY_PATH) = 0
+close(3)                                = 0
+openat(AT_FDCWD, "/etc/hosts", O_RDONLY|O_CLOEXEC) = 3
+newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=218, ...}, AT_EMPTY_PATH) = 0
+lseek(3, 0, SEEK_SET)                   = 0
+read(3, "127.0.0.1\tlocalhost\n127.0.1.1\tde"..., 4096) = 218
+read(3, "", 4096)                       = 0
+close(3)                                = 0
+openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=84771, ...}, AT_EMPTY_PATH) = 0
+mmap(NULL, 84771, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7f31848cb000
+close(3)                                = 0
+openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libnss_mdns4_minimal.so.2", O_RDONLY|O_CLOEXEC) = 3
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\0\0\0\0\0\0\0\0"..., 832) = 832
+newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=18664, ...}, AT_EMPTY_PATH) = 0
+mmap(NULL, 20496, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7f3185823000
+mmap(0x7f3185824000, 8192, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1000) = 0x7f3185824000
+mmap(0x7f3185826000, 4096, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x3000) = 0x7f3185826000
+mmap(0x7f3185827000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x3000) = 0x7f3185827000
+close(3)                                = 0
+mprotect(0x7f3185827000, 4096, PROT_READ) = 0
+munmap(0x7f31848cb000, 84771)           = 0
+socket(AF_INET, SOCK_DGRAM|SOCK_CLOEXEC|SOCK_NONBLOCK, IPPROTO_IP) = 3
+setsockopt(3, SOL_IP, IP_RECVERR, [1], 4) = 0
+connect(3, {sa_family=AF_INET, sin_port=htons(53), sin_addr=inet_addr("127.0.0.53")}, 16) = 0
+poll([{fd=3, events=POLLOUT}], 1, 0)    = 1 ([{fd=3, revents=POLLOUT}])
+sendmmsg(3, [{msg_hdr={msg_name=NULL, msg_namelen=0, msg_iov=[{iov_base="\227\6\1 \0\1\0\0\0\0\0\1\6kernel\3org\0\0\1\0\1\0\0)\4"..., iov_len=39}], msg_iovlen=1, msg_controllen=0, msg_flags=0}, msg_len=39}, {msg_hdr={msg_name=NULL, msg_namelen=0, msg_iov=[{iov_base="\26\7\1 \0\1\0\0\0\0\0\1\6kernel\3org\0\0\34\0\1\0\0)\4"..., iov_len=39}], msg_iovlen=1, msg_controllen=0, msg_flags=0}, msg_len=39}], 2, MSG_NOSIGNAL) = 2
+poll([{fd=3, events=POLLIN}], 1, 5000)  = 1 ([{fd=3, revents=POLLIN}])
+ioctl(3, FIONREAD, [67])                = 0
+recvfrom(3, "\26\7\201\200\0\1\0\1\0\0\0\1\6kernel\3org\0\0\34\0\1\300\f\0\34"..., 2048, 0, {sa_family=AF_INET, sin_port=htons(53), sin_addr=inet_addr("127.0.0.53")}, [28 => 16]) = 67
+poll([{fd=3, events=POLLIN}], 1, 4782)  = 1 ([{fd=3, revents=POLLIN}])
+ioctl(3, FIONREAD, [55])                = 0
+recvfrom(3, "\227\6\201\200\0\1\0\1\0\0\0\1\6kernel\3org\0\0\1\0\1\300\f\0\1"..., 65536, 0, {sa_family=AF_INET, sin_port=htons(53), sin_addr=inet_addr("127.0.0.53")}, [28 => 16]) = 55
+close(3)                                = 0
+openat(AT_FDCWD, "/etc/gai.conf", O_RDONLY|O_CLOEXEC) = 3
+newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=2584, ...}, AT_EMPTY_PATH) = 0
+newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=2584, ...}, AT_EMPTY_PATH) = 0
+read(3, "# Configuration for getaddrinfo("..., 4096) = 2584
+read(3, "", 4096)                       = 0
+close(3)                                = 0
+futex(0x7f318523b1c4, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+socket(AF_NETLINK, SOCK_RAW|SOCK_CLOEXEC, NETLINK_ROUTE) = 3
+bind(3, {sa_family=AF_NETLINK, nl_pid=0, nl_groups=00000000}, 12) = 0
+getsockname(3, {sa_family=AF_NETLINK, nl_pid=9736, nl_groups=00000000}, [12]) = 0
+sendto(3, [{nlmsg_len=20, nlmsg_type=RTM_GETADDR, nlmsg_flags=NLM_F_REQUEST|NLM_F_DUMP, nlmsg_seq=1676886064, nlmsg_pid=0}, {ifa_family=AF_UNSPEC, ...}], 20, 0, {sa_family=AF_NETLINK, nl_pid=0, nl_groups=00000000}, 12) = 20
+recvmsg(3, {msg_name={sa_family=AF_NETLINK, nl_pid=0, nl_groups=00000000}, msg_namelen=12, msg_iov=[{iov_base=[[{nlmsg_len=76, nlmsg_type=RTM_NEWADDR, nlmsg_flags=NLM_F_MULTI, nlmsg_seq=1676886064, nlmsg_pid=9736}, {ifa_family=AF_INET, ifa_prefixlen=8, ifa_flags=IFA_F_PERMANENT, ifa_scope=RT_SCOPE_HOST, ifa_index=if_nametoindex("lo")}, [[{nla_len=8, nla_type=IFA_ADDRESS}, inet_addr("127.0.0.1")], [{nla_len=8, nla_type=IFA_LOCAL}, inet_addr("127.0.0.1")], [{nla_len=7, nla_type=IFA_LABEL}, "lo"], [{nla_len=8, nla_type=IFA_FLAGS}, IFA_F_PERMANENT], [{nla_len=20, nla_type=IFA_CACHEINFO}, {ifa_prefered=4294967295, ifa_valid=4294967295, cstamp=932, tstamp=932}]]], [{nlmsg_len=92, nlmsg_type=RTM_NEWADDR, nlmsg_flags=NLM_F_MULTI, nlmsg_seq=1676886064, nlmsg_pid=9736}, {ifa_family=AF_INET, ifa_prefixlen=21, ifa_flags=0, ifa_scope=RT_SCOPE_UNIVERSE, ifa_index=if_nametoindex("wlp0s20f3")}, [[{nla_len=8, nla_type=IFA_ADDRESS}, inet_addr("10.9.45.187")], [{nla_len=8, nla_type=IFA_LOCAL}, inet_addr("10.9.45.187")], [{nla_len=8, nla_type=IFA_BROADCAST}, inet_addr("10.9.47.255")], [{nla_len=14, nla_type=IFA_LABEL}, "wlp0s20f3"], [{nla_len=8, nla_type=IFA_FLAGS}, IFA_F_NOPREFIXROUTE], [{nla_len=20, nla_type=IFA_CACHEINFO}, {ifa_prefered=7422, ifa_valid=7422, cstamp=1670, tstamp=1713}]]]], iov_len=4096}], msg_iovlen=1, msg_controllen=0, msg_flags=0}, 0) = 168
+recvmsg(3, {msg_name={sa_family=AF_NETLINK, nl_pid=0, nl_groups=00000000}, msg_namelen=12, msg_iov=[{iov_base=[[{nlmsg_len=72, nlmsg_type=RTM_NEWADDR, nlmsg_flags=NLM_F_MULTI, nlmsg_seq=1676886064, nlmsg_pid=9736}, {ifa_family=AF_INET6, ifa_prefixlen=128, ifa_flags=IFA_F_PERMANENT, ifa_scope=RT_SCOPE_HOST, ifa_index=if_nametoindex("lo")}, [[{nla_len=20, nla_type=IFA_ADDRESS}, inet_pton(AF_INET6, "::1")], [{nla_len=20, nla_type=IFA_CACHEINFO}, {ifa_prefered=4294967295, ifa_valid=4294967295, cstamp=932, tstamp=932}], [{nla_len=8, nla_type=IFA_FLAGS}, IFA_F_PERMANENT]]], [{nlmsg_len=72, nlmsg_type=RTM_NEWADDR, nlmsg_flags=NLM_F_MULTI, nlmsg_seq=1676886064, nlmsg_pid=9736}, {ifa_family=AF_INET6, ifa_prefixlen=64, ifa_flags=IFA_F_PERMANENT, ifa_scope=RT_SCOPE_LINK, ifa_index=if_nametoindex("wlp0s20f3")}, [[{nla_len=20, nla_type=IFA_ADDRESS}, inet_pton(AF_INET6, "fe80::2321:d161:decf:59c1")], [{nla_len=20, nla_type=IFA_CACHEINFO}, {ifa_prefered=4294967295, ifa_valid=4294967295, cstamp=1666, tstamp=1713}], [{nla_len=8, nla_type=IFA_FLAGS}, IFA_F_PERMANENT|IFA_F_NOPREFIXROUTE]]]], iov_len=4096}], msg_iovlen=1, msg_controllen=0, msg_flags=0}, 0) = 144
+recvmsg(3, {msg_name={sa_family=AF_NETLINK, nl_pid=0, nl_groups=00000000}, msg_namelen=12, msg_iov=[{iov_base=[{nlmsg_len=20, nlmsg_type=NLMSG_DONE, nlmsg_flags=NLM_F_MULTI, nlmsg_seq=1676886064, nlmsg_pid=9736}, 0], iov_len=4096}], msg_iovlen=1, msg_controllen=0, msg_flags=0}, 0) = 20
+close(3)                                = 0
+socket(AF_INET6, SOCK_DGRAM|SOCK_CLOEXEC, IPPROTO_IP) = 3
+connect(3, {sa_family=AF_INET6, sin6_port=htons(0), sin6_flowinfo=htonl(0), inet_pton(AF_INET6, "2604:1380:4641:c500::1", &sin6_addr), sin6_scope_id=0}, 28) = -1 ENETUNREACH (Сеть недоступна)
+connect(3, {sa_family=AF_UNSPEC, sa_data="\0\0\0\0\0\0\0\0\0\0\0\0\0\0"}, 16) = 0
+connect(3, {sa_family=AF_INET, sin_port=htons(0), sin_addr=inet_addr("139.178.84.217")}, 16) = 0
+getsockname(3, {sa_family=AF_INET6, sin6_port=htons(57610), sin6_flowinfo=htonl(0), inet_pton(AF_INET6, "::ffff:10.9.45.187", &sin6_addr), sin6_scope_id=0}, [28]) = 0
+close(3)                                = 0
+ioctl(0, TIOCGPGRP, [9733])             = 0
+getpgrp()                               = 9733
+write(2, "139.178.84.217", 14139.178.84.217)          = 14
+ioctl(0, TIOCGPGRP, [9733])             = 0
+getpgrp()                               = 9733
+write(2, ", ", 2, )                       = 2
+ioctl(0, TIOCGPGRP, [9733])             = 0
+getpgrp()                               = 9733
+write(2, "2604:1380:4641:c500::1", 222604:1380:4641:c500::1)  = 22
+ioctl(0, TIOCGPGRP, [9733])             = 0
+getpgrp()                               = 9733
+write(2, "\n", 1
+)                       = 1
+ioctl(0, TIOCGPGRP, [9733])             = 0
+getpgrp()                               = 9733
+write(2, "\320\237\320\276\320\264\320\272\320\273\321\216\321\207\320\265\320\275\320\270\320\265 \320\272 kernel"..., 73Подключение к kernel.org (kernel.org)|139.178.84.217|:443... ) = 73
+socket(AF_INET, SOCK_STREAM, IPPROTO_IP) = 3
+connect(3, {sa_family=AF_INET, sin_port=htons(443), sin_addr=inet_addr("139.178.84.217")}, 16) = 0
+ioctl(0, TIOCGPGRP, [9733])             = 0
+getpgrp()                               = 9733
+write(2, "\321\201\320\276\320\265\320\264\320\270\320\275\320\265\320\275\320\270\320\265 \321\203\321\201\321\202\320\260\320\275\320"..., 45соединение установлено.
+) = 45
+setsockopt(3, SOL_TCP, TCP_ULP, [7564404], 4) = -1 ENOENT (Нет такого файла или каталога)
+newfstatat(AT_FDCWD, "/home/durachok/.rnd", 0x7ffec8ddfe10, 0) = -1 ENOENT (Нет такого файла или каталога)
+fcntl(3, F_GETFL)                       = 0x2 (flags O_RDWR)
+fcntl(3, F_SETFL, O_RDWR|O_NONBLOCK)    = 0
+brk(0x5643fadb6000)                     = 0x5643fadb6000
+getpid()                                = 9736
+getpid()                                = 9736
+getpid()                                = 9736
+write(3, "\26\3\1\1\217\1\0\1\213\3\3z\30\177\20k\267'\345K\376\360v\21\303V\266\0335/\177-"..., 404) = 404
+read(3, 0x5643fad8c3d3, 5)              = -1 EAGAIN (Ресурс временно недоступен)
+pselect6(4, [3], NULL, NULL, {tv_sec=900, tv_nsec=0}, NULL) = 1 (in [3], left {tv_sec=899, tv_nsec=804055883})
+read(3, "\26\3\3\0A", 5)                = 5
+read(3, "\2\0\0=\3\3\200\261\303.^\220\365\245\254\337\372<\314J\24\217o\27\20<Pc\r\314p\361"..., 65) = 65
+read(3, "\26\3\3\20=", 5)               = 5
+read(3, "\v\0\209\0\0206\0\5\2570\202\5\2530\202\4\223\240\3\2\1\2\2\22\3n\323eaR\v"..., 4157) = 4157
+newfstatat(AT_FDCWD, "/usr/lib/ssl/certs/8d33f237.0", 0x7ffec8ddf800, 0) = -1 ENOENT (Нет такого файла или каталога)
+futex(0x7f31856b4458, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+newfstatat(AT_FDCWD, "/usr/lib/ssl/certs", {st_mode=S_IFDIR|0755, st_size=12288, ...}, 0) = 0
+openat(AT_FDCWD, "/usr/lib/ssl/certs", O_RDONLY|O_NONBLOCK|O_CLOEXEC|O_DIRECTORY) = 4
+newfstatat(4, "", {st_mode=S_IFDIR|0755, st_size=12288, ...}, AT_EMPTY_PATH) = 0
+brk(0x5643fadde000)                     = 0x5643fadde000
+getdents64(4, 0x5643fadb5660 /* 255 entries */, 32768) = 10912
+getdents64(4, 0x5643fadb5660 /* 0 entries */, 32768) = 0
+close(4)                                = 0
+newfstatat(AT_FDCWD, "/usr/lib/ssl/certs/4042bcee.0", {st_mode=S_IFREG|0644, st_size=1939, ...}, 0) = 0
+openat(AT_FDCWD, "/usr/lib/ssl/certs/4042bcee.0", O_RDONLY) = 4
+newfstatat(4, "", {st_mode=S_IFREG|0644, st_size=1939, ...}, AT_EMPTY_PATH) = 0
+read(4, "-----BEGIN CERTIFICATE-----\nMIIF"..., 4096) = 1939
+read(4, "", 4096)                       = 0
+close(4)                                = 0
+newfstatat(AT_FDCWD, "/usr/lib/ssl/certs/4042bcee.1", 0x7ffec8ddf800, 0) = -1 ENOENT (Нет такого файла или каталога)
+read(3, "\26\3\3\1M", 5)                = 5
+read(3, "\f\0\1I\3\0\27A\4&3\242\364\335\7g\213\24twmO\330`\212\26\377\202\327K'\261"..., 333) = 333
+read(3, "\26\3\3\0\4", 5)               = 5
+read(3, "\16\0\0\0", 4)                 = 4
+getpid()                                = 9736
+getpid()                                = 9736
+write(3, "\26\3\3\0F\20\0\0BA\4\335\306.\257\307|;b}\7\347i\371,\232w\326\204\332\322u"..., 126) = 126
+read(3, 0x5643fad8c3d3, 5)              = -1 EAGAIN (Ресурс временно недоступен)
+pselect6(4, [3], NULL, NULL, {tv_sec=899, tv_nsec=802834000}, NULL) = 1 (in [3], left {tv_sec=899, tv_nsec=499535725})
+read(3, "\26\3\3\0\312", 5)             = 5
+read(3, "\4\0\0\306\0\0\1,\0\300\363\2129\367\245\333\336\272\7\254?\"\10\352\264*;\311=]Ya"..., 202) = 202
+read(3, "\24\3\3\0\1", 5)               = 5
+read(3, "\1", 1)                        = 1
+read(3, "\26\3\3\0(", 5)                = 5
+read(3, "\274\267\334c(J\7\216\266H\204\276\373&\235pp\21\276\256\320/v{.\17\376\34\366:\340\304"..., 40) = 40
+fcntl(3, F_SETFL, O_RDWR)               = 0
+pselect6(4, NULL, [3], NULL, {tv_sec=900, tv_nsec=0}, NULL) = 1 (out [3], left {tv_sec=899, tv_nsec=999995847})
+write(3, "\27\3\3\0\225\226\350\373\214JJ\374:\271\32\236\5.QE\357\220\277\322\222\263b,<\376I\n"..., 154) = 154
+ioctl(0, TIOCGPGRP, [9733])             = 0
+getpgrp()                               = 9733
+write(2, "HTTP-\320\267\320\260\320\277\321\200\320\276\321\201 \320\276\321\202\320\277\321\200\320\260\320\262\320\273"..., 71HTTP-запрос отправлен. Ожидание ответа… ) = 71
+fcntl(3, F_GETFL)                       = 0x2 (flags O_RDWR)
+fcntl(3, F_SETFL, O_RDWR|O_NONBLOCK)    = 0
+read(3, 0x5643fad8c3d3, 5)              = -1 EAGAIN (Ресурс временно недоступен)
+pselect6(4, [3], NULL, NULL, {tv_sec=900, tv_nsec=0}, NULL) = 1 (in [3], left {tv_sec=899, tv_nsec=688566445})
+read(3, "\27\3\3>\224", 5)              = 5
+read(3, "\274\267\334c(J\7\217\312\244\361\344,X\202\307\16\1\330\342:\300NF\270mu'\331\3549\257"..., 16020) = 13675
+read(3, 0x5643fad8f943, 2345)           = -1 EAGAIN (Ресурс временно недоступен)
+pselect6(4, [3], NULL, NULL, {tv_sec=899, tv_nsec=688211000}, NULL) = 1 (in [3], left {tv_sec=899, tv_nsec=389079934})
+read(3, "\274\260A\202k\315\357{a\273\256hQNe\315K\251\240\303\347\226L+\251\353\177\202\251\t\0001"..., 2345) = 2345
+fcntl(3, F_SETFL, O_RDWR)               = 0
+ioctl(0, TIOCGPGRP, [9733])             = 0
+getpgrp()                               = 9733
+write(2, "200 OK\n", 7200 OK
+)                 = 7
+newfstatat(AT_FDCWD, "index.html", 0x7ffec8de00e0, 0) = -1 ENOENT (Нет такого файла или каталога)
+ioctl(0, TIOCGPGRP, [9733])             = 0
+getpgrp()                               = 9733
+write(2, "\320\224\320\273\320\270\320\275\320\260: ", 12Длина: ) = 12
+ioctl(0, TIOCGPGRP, [9733])             = 0
+getpgrp()                               = 9733
+write(2, "15564", 515564)                    = 5
+ioctl(0, TIOCGPGRP, [9733])             = 0
+getpgrp()                               = 9733
+write(2, " (15K)", 6 (15K))                   = 6
+ioctl(0, TIOCGPGRP, [9733])             = 0
+getpgrp()                               = 9733
+write(2, " [text/html]\n", 13 [text/html]
+)          = 13
+openat(AT_FDCWD, "index.html", O_WRONLY|O_CREAT|O_TRUNC, 0666) = 4
+openat(AT_FDCWD, "/usr/share/locale/ru/LC_MESSAGES/wget-gnulib.mo", O_RDONLY) = -1 ENOENT (Нет такого файла или каталога)
+openat(AT_FDCWD, "/usr/share/locale-langpack/ru/LC_MESSAGES/wget-gnulib.mo", O_RDONLY) = -1 ENOENT (Нет такого файла или каталога)
+ioctl(0, TIOCGPGRP, [9733])             = 0
+getpgrp()                               = 9733
+write(2, "\320\241\320\276\321\205\321\200\320\260\320\275\320\265\320\275\320\270\320\265 \320\262: \342\200\230inde"..., 42Сохранение в: ‘index.html’
+) = 42
+ioctl(2, TIOCGWINSZ, {ws_row=57, ws_col=238, ws_xpixel=0, ws_ypixel=0}) = 0
+ioctl(0, TIOCGPGRP, [9733])             = 0
+getpgrp()                               = 9733
+write(2, "\n", 1
+)                       = 1
+ioctl(0, TIOCGPGRP, [9733])             = 0
+getpgrp()                               = 9733
+)                       = 1
+ioctl(0, TIOCGPGRP, [9733])             = 0
+getpgrp()                               = 9733
+write(2, "index.html                      "..., 237index.html                                                    0%[                                                                                                                                          ]       0  --.-KB/s               ) = 237
+newfstatat(4, "", {st_mode=S_IFREG|0664, st_size=0, ...}, AT_EMPTY_PATH) = 0
+write(4, "<!DOCTYPE html>\n<html lang=\"en\">"..., 8192) = 8192
+write(4, "n.kernel.org/pub/linux/kernel/v5"..., 4096) = 4096
+write(4, "     <li><a href=\"https://patchw"..., 3276) = 3276
+ioctl(0, TIOCGPGRP, [9733])             = 0
+getpgrp()                               = 9733
+)                       = 1
+ioctl(0, TIOCGPGRP, [9733])             = 0
+getpgrp()                               = 9733
+write(2, "index.html                      "..., 239index.html                                                  100%[=========================================================================================================================================>]  15,20K  --.-KB/s    за 0s      ) = 239
+ioctl(0, TIOCGPGRP, [9733])             = 0
+getpgrp()                               = 9733
+write(2, "\n", 1
+)                       = 1
+ioctl(0, TIOCGPGRP, [9733])             = 0
+getpgrp()                               = 9733
+write(2, "\n", 1
+)                       = 1
+close(4)                                = 0
+newfstatat(AT_FDCWD, "/etc/localtime", {st_mode=S_IFREG|0644, st_size=1221, ...}, 0) = 0
+utimensat(AT_FDCWD, "index.html", [{tv_sec=1676886066, tv_nsec=0} /* 2023-02-20T16:41:06+0700 */, {tv_sec=1676876439, tv_nsec=0} /* 2023-02-20T14:00:39+0700 */], 0) = 0
+ioctl(0, TIOCGPGRP, [9733])             = 0
+getpgrp()                               = 9733
+write(2, "2023-02-20 16:41:06 (148 MB/s) -"..., 822023-02-20 16:41:06 (148 MB/s) - ‘index.html’ сохранён [15564/15564]
+
+) = 82
+ioctl(0, TIOCGPGRP, [9733])             = 0
+getpgrp()                               = 9733
+openat(AT_FDCWD, "/home/durachok/.wget-hsts", O_RDWR|O_CREAT|O_APPEND, 0666) = 4
+flock(4, LOCK_EX)                       = 0
+newfstatat(AT_FDCWD, "/home/durachok/.wget-hsts", {st_mode=S_IFREG|0664, st_size=165, ...}, 0) = 0
+lseek(4, 0, SEEK_SET)                   = 0
+ftruncate(4, 0)                         = 0
+newfstatat(4, "", {st_mode=S_IFREG|0664, st_size=0, ...}, AT_EMPTY_PATH) = 0
+write(4, "# HSTS 1.0 Known Hosts database "..., 165) = 165
+close(4)                                = 0
+exit_group(0)                           = ?
++++ exited with 0 +++

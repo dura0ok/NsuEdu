@@ -1,0 +1,8 @@
+push@fit.nsu.labs.commands.Push
+define@fit.nsu.labs.commands.Define
+print@fit.nsu.labs.commands.Print
++@fit.nsu.labs.commands.BinaryOperation
+-@fit.nsu.labs.commands.BinaryOperation
+*@fit.nsu.labs.commands.BinaryOperation
+/@fit.nsu.labs.commands.BinaryOperation
+sqrt@fit.nsu.labs.commands.Sqrt
