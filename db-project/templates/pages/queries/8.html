@@ -1,0 +1,21 @@
+{% extends 'pages/queries/base.html' %}
+
+{% block query-name %}
+    Получить список клиентов в целом по фотоцентру, клиентов указанного<br>
+    филиала, имеющих скидки, сделавших заказы определенного объема.<br>
+{% endblock %}
+
+{% block params %}
+    {% include 'pages/queries/outlet_choose.html' %}
+
+    <label>
+        Скидка
+        <input type="number" value="0" name="discount" min="0">
+    </label>
+
+    <label>
+        Обьём
+        <input type="number" value="0" name="volume" min="0">
+    </label>
+{% endblock %}
+

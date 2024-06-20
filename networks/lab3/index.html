@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- <link rel="stylesheet" href="node_modules/materialize-css/dist/css/materialize.min.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+
+    <script
+      src="https://api-maps.yandex.ru/2.1/?apikey=efb38caf-ccf1-43d8-af67-6b929439fe92&lang=ru_RU"
+      type="text/javascript"
+    ></script>
+
+    <meta charset="utf-8" />
+    <title>ASDASAD</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Лабораторная работа №3</h1>
+      <p>Условие можно посмотреть здесь <a href="http://fit.ippolitov.me/CN_2/2021/3.html" target="_blank">ТЫК</a></p>
+
+      <div class="row">
+        <form class="col s12">
+          <div class="row">
+            <div class="input-field col s8">
+              <input id="place" type="text" value="Цветной проезд" />
+              <label for="place">Search</label>
+            </div>
+            <div class="input-field col s4">
+              <button class="btn waves-effect waves-light search-button" type="submit">
+                Search
+                <i class="material-icons right">search</i>
+                <!-- Add the search icon here -->
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+
+      <ul class="collection with-header found-places" style="display: none">
+        <li class="collection-header"><h4>Найденные места</h4></li>
+      </ul>
+    </div>
+
+    <div class="modal-wrapper"></div>
+
+    <div id="preloader-container" class="center-align">
+      <div class="preloader-wrapper big">
+        <div class="spinner-layer spinner-blue-only">
+          <div class="circle-clipper left">
+            <div class="circle"></div>
+          </div>
+          <div class="gap-patch">
+            <div class="circle"></div>
+          </div>
+          <div class="circle-clipper right">
+            <div class="circle"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!--<script src="node_modules/materialize-css/dist/js/materialize.min.js"></script>-->
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        M.AutoInit(); // Initialize Materialize components
+      });
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+
+    <script type="module" src="main.js" defer></script>
+  </body>
+</html>

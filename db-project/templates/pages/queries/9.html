@@ -1,0 +1,12 @@
+{% extends 'pages/queries/base.html' %}
+
+{% block query-name %}
+    Получить сумму выручки от реализации фототоваров в целом по фотоцентру, по<br>
+    указанному филиалу, проданных в течение некоторого периода времени.
+{% endblock %}
+
+{% block params %}
+    {% include 'pages/queries/outlet_choose.html' %}
+    {% include 'pages/queries/dates_range.html' %}
+{% endblock %}
+

@@ -1,0 +1,41 @@
+import runtime;
+import ds/array;
+import string;
+
+fib(n:int) -> [int] {
+    if (n == 0) {
+        [0];
+    } else if (n == 1) {
+        [0, 1];
+    } else {
+        fibNumsPrev = fib(n-1); 
+        arrayPush(fibNumsPrev, fibNumsPrev[n-1] + fibNumsPrev[n-2]);
+    }
+}
+
+fibTailRec(n : int, arr : [int]) -> [int]{
+    if (n == 1){
+        arr;
+    } else {
+        fibTailRec(n-1, arrayPush(arr, arr[length(arr)-1] + arr[length(arr)-2]));
+    }
+}
+
+fibArrRef(n : int) -> [int]{
+    if (n == 0) {
+        [0];
+    } else if (n == 1) {
+        [0, 1];
+    } else {
+        arr = ref fib(n-1);
+        refArrayPush(arr, ^arr[length(^arr)-1] + ^arr[length(^arr)-2]);
+        ^arr;
+    }
+}
+
+main(){
+    println(fib(7));
+    println(fibTailRec(7, [0, 1]));
+    println(fibArrRef(7));
+	  quit(0);
+}

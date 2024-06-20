@@ -1,0 +1,15 @@
+{% extends 'pages/queries/base.html' %}
+
+{% block query-name %}
+    Получить перечень и общее число заказов на фотоработы <br>
+    по филиалам, киоскам приема заказов, в целом по фотоцентру, <br>
+    поступивших в течение некоторого периода времени.
+{% endblock %}
+
+{% block params %}
+
+    {% include 'pages/queries/outlet_type_choose.html' %}
+
+    {% include 'pages/queries/dates_range.html' %}
+
+{% endblock %}

@@ -1,0 +1,1 @@
+/usr/bin/cc CMakeFiles/threads_test.dir/main.c.o -o threads_test  -Wl,-rpath,/home/durachok/workspace/osi-labs/task1/1.6/final/build libmythread.so 

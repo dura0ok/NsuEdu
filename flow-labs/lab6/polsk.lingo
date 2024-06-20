@@ -1,0 +1,5 @@
+stack = elem+:elems {translateToInfix(:elems)};
+elem = int:t {:t} | bin:t {:t};
+int = ws ('0' - '9')+$d {ArRpnInt(s2i($d))};
+bin = ws "+" {ArAddRpn()} | ws "*" {ArProdRpn()};
+ws = (' ' | '\r' | '\n' | '\t')*;

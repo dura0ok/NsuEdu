@@ -1,0 +1,65 @@
+programm = ws varDecl*:d ws body:a ws { NemoProgram(:d, :a) };
+body = statement;
+statement = (ws alternative:a ws ';' {:a})*:as {BodiesSeq(:as)};
+alternative = bodyTerm:first nonDetermenisticChoice:other {buildChoice(:first, :other)};
+bodyTerm = assignment:a {:a} | print | test:t {:t} | nonDeterministicIteration:i {:i} | ws '{' ws statement:s ws '}' ws {:s};
+print = "PRINT" ws "("ws expr:e ws ")" ws {Print(:e)};
+assignment = var:v ws ":=" ws expr:e ws {Assignment(:v, :e)};
+
+nonDetermenisticChoice = ws (ws "U" ws bodyTerm:b ws {:b})*:bs ws {:bs};
+nonDeterministicIteration = ws "{" ws body:iter ws "}" ws "*" ws {NonDeterministicIteration(:iter)};
+test = ws "(" ws cond:c  ws ")" ws "?" ws {Test(:c)};
+
+cond = or;
+or = and:a ws "||" ws or:b ws {Or(:a, :b)} | ws and:a ws {:a};
+and = not:a ws "&&" ws and:b ws {And(:a, :b)} | ws not:n ws {:n};
+not = ws "!" ws comp:c ws {Not(:c)} | ws comp:c ws {:c};
+comp = ws expr:e1 ws comparisonType:t ws expr:e2 ws  {Comparison(:e1, :e2, :t)} | ws "(" ws cond:c ws ")" ws {:c};
+
+comparisonType = greaterEqual | greater | lessEqual | less | eq | neq;
+
+greater = ">" {GreaterOperator()};
+greaterEqual = ">=" {GreaterEqualOperator()};
+less = "<" {LessOperator()};
+lessEqual = "<=" {LessEqualOperator()};
+eq = "=" {EqualOperator()};
+neq = "!=" {NeqOperator()};
+
+expr = arrExpr | lowPrior | arrayOperation;
+
+arrayOperation = appOperation | updOperation | lengthOperation | concatOperation;
+
+appOperation = "APP" ws "(" ws expr:arr ws comma ws expr:val ws ")" ws {AppOperator(:arr, :val)};
+updOperation = "UPD" ws "(" ws expr:arr ws comma ws expr:ind ws comma ws expr:val ws ")" ws {UpdOperator(:arr, :ind, :val)};
+lengthOperation =  "LENGTH" ws "(" ws expr:arr ws ")" ws {LengthOperator(:arr)};
+concatOperation =  "CONCAT" ws "(" ws expr:arr1 ws comma ws expr:arr2 ws ")" ws {ConcatOperator(:arr1, :arr2)};
+varDecl = "VAR" ws var:vName ws ":" ws nemoType:t ws ";" ws {VarDecl(:vName, :t)};
+
+nemoType = intType {IntType()} | ws "[" ws nemoType:t ws "]" ws {ArrayType(:t)};
+
+intType = "int" | "INT";
+
+lowPrior = hightPrior:head (add | sub)*:tail {buildBinaryArithmOp(:head, :tail)};
+add = ws '+' ws hightPrior:high {ToAdd(:high)};
+sub = ws '-' ws hightPrior:high {ToSub(:high)};
+
+hightPrior = token:head (mul | div)*:tail {buildBinaryArithmOp(:head, :tail)};
+mul = '*' ws token:t {ToMul(:t)};
+div = '/' ws token:t {ToDiv(:t)};
+
+token = unary | inPar | atom;
+unary = '-' ws token:e ws {Neg(:e)};
+inPar = '(' ws expr:e ws ')' ws {:e};
+
+arrExpr = ws "[" ws expr:firstExpr ws (comma ws expr:s {:s})*:secondAction ws "]" ws {Array(consArray(:firstExpr, :secondAction))} 
+| "[" ws "]" {Array(emptyArray())};
+
+atom = int:i ws {:i} | var:v ws {:v} | arrayOperation;
+
+
+int = digit+$d {IntConst(s2i($d))};
+var = (letter (letter | digit)*)$n {Var($n)};
+digit = '0' - '9';
+letter = 'a' - 'z';
+comma = ",";
+ws = (' ' | '\r' | '\n' | '\t')*;

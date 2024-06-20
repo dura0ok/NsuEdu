@@ -1,0 +1,24 @@
+********************************************************************************
+***                       Micro-Cap 11.2.0.3 (64 bit)                        ***
+***                                                                          ***
+***                                                                          ***
+***                        Transient Analysis of pi-2                        ***
+***                           16.05.2024 17:54:32                            ***
+********************************************************************************
+Limits
+======
+Time Range               10
+Maximum Time Step        0
+Number of Points         51
+Temperature              Linear 27
+Retrace Runs             1
+Run Options              Normal
+State Variables          Zero
+Operating Point          Off
+Operating Point Only     Off
+Auto Scale Ranges        Off
+Accumulate Plots         Off
+Fixed Time Step          Off
+Periodic Steady State    Off
+Ignore Expression Errors Off
+

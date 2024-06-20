@@ -1,0 +1,16 @@
+{% extends 'pages/queries/base.html' %}
+
+{% block query-name %}
+    Получить перечень и общее число пунктов приема заказов на фотоработы
+{% endblock %}
+
+{% block params %}
+    <label>
+        Выбор здания:
+        <select name="outlet" id="">
+            {% for outlet_type in outlet_types %}
+                <option value="{{ outlet_type.id }}">{{ outlet_type.name }}</option>
+            {% endfor %}
+        </select>
+    </label>
+{% endblock %}

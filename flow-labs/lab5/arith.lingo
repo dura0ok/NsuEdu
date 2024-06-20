@@ -1,0 +1,6 @@
+add = ws mul:left ws "+" ws add:right ws {ArSum(:left, :right)} | mul;
+mul = factor:left ws "*" ws mul:right ws {ArProd(:left, :right)} | factor;
+factor = num | "(" add:a ")" {:a};
+num = ('0' - '9')+ $d {ArInt(s2i($d))};
+ws = (" " | "\t" | "\n")*;
+digit = '0' - '9';

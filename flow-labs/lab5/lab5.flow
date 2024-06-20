@@ -1,0 +1,44 @@
+import runtime;
+import lingo/pegcode/driver;
+import maybe;
+import string;
+
+grammar = "#include arith.lingo";
+
+ArExp ::= ArSum, ArProd, ArInt;
+ArSum : (l: ArExp, r: ArExp);
+ArProd : (l: ArExp, r: ArExp);
+ArInt : (val: int);
+
+parse(s: string) -> ArExp{
+    parser = compilePegGrammar(grammar);
+    parsic(parser, s, defaultPegActions);
+}
+
+ae2s(a: ArExp) -> string{
+    switch(a){
+        ArSum(l,r): ("(" + ae2s(l) + " + " + ae2s(r) + ")");
+        ArProd(l,r): ("(" + ae2s(l) + " * " + ae2s(r) + ")");
+        ArInt(v): (i2s(v));
+    }
+}
+
+calculate(e : ArExp) -> int {
+    switch(e) {
+        ArInt(c) : c;
+        ArSum(l, r) : calculate(l) + calculate(r);
+        ArProd(l, r) : calculate(l) * calculate(r);
+    }
+}
+
+
+main() {
+    t1 = parse("2*3");
+    if (t1 == flow("PARSING FAILED")) { quit(1); } 
+    else {
+        println(ae2s(t1));
+        println(calculate(t1));
+	    quit(0);
+    }
+   
+}

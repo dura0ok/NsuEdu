@@ -1,0 +1,33 @@
+import ds/tree;
+import string;
+import ds/set;
+
+
+inds(array:[int], m:int) -> [Pair<int,int>] {
+    t  = foldi(array, makeTree(), \i, s, n_i -> {
+
+        switch(lookupTree(s, n_i)) {
+
+            Some(v):  setTree(s, n_i, concat(v, [i]));
+            None(): setTree(s, n_i, [i]);
+        }
+    }
+    );
+
+    println(t);
+
+    foldi(array, [], \i, s, n_i ->
+        switch(lookupTree(t, m - n_i)) {
+
+            Some(v): concat(s, map(v, \j -> Pair(i, j)));
+            None(): s;
+        }
+    )
+    //set2array(buildSet(array));
+}
+
+main (){
+   array = [0,1,1,2,2,2];
+   println(inds(array, 8));
+   quit(0);
+}

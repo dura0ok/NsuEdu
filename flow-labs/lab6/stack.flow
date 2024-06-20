@@ -1,0 +1,22 @@
+import runtime;
+import ds/array;
+import string;
+
+export {
+    Stack(data: ref[?]);
+    Push(stack: Stack, element: ?) -> void;
+	Pop(stack: Stack) -> ?;
+}
+
+Push(stack: Stack, element: ?) -> void {
+    refArrayPush(stack.data, element);
+}
+
+
+Pop(stack: Stack) -> ? {
+    exitIndex = length(^(stack.data)) - 1;
+    //println(exitIndex);
+    el: ? = ^(stack.data)[exitIndex];    
+    stack.data := removeIndex(^(stack.data), exitIndex);
+    el;
+}

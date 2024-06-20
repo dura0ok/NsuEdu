@@ -1,0 +1,1 @@
+for i in {1..512}; do wget http://212.183.159.230/10MB.zip -e use_proxy=on -e http_proxy=127.0.0.1:8080 -O $i.tmp & done

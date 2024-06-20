@@ -1,0 +1,161 @@
+import string;
+import lingo/pegcode/driver;
+import rational;
+
+
+Expr ::= IntConst, Mul, Div, Add, Sub, Neg, Var;
+IntConst(value : int);
+Mul(left : Expr, right : Expr);
+Div(left : Expr, right : Expr);
+Add(left : Expr, right : Expr);
+Sub(left : Expr, right : Expr);
+Neg(arg : Expr);
+Var(name : string);
+
+HighPrior ::= ToMul, ToDiv;
+LowPrior ::= ToAdd, ToSub;
+
+ToMul(arg : Expr);
+ToDiv(arg : Expr);
+ToAdd(arg : Expr);
+ToSub(arg : Expr);
+
+
+grammarOp = compilePegGrammar("#include grammar.lingo");
+
+specialPegActions = {
+    pairs = [Pair("buildHigh", buildHigh), Pair("buildLow", buildLow)];
+    t = setTreeValues(defaultPegActions.t, pairs);
+    SemanticActions(t);
+}
+
+
+buildHigh(arr : [flow]) {
+    fold(arr[1], arr[0], \acc, cur -> switch(cur) {
+        ToMul(arg) : Mul(acc, arg);
+        ToDiv(arg) : Div(acc, arg);
+    })
+}
+
+buildLow(arr : [flow]) {
+    fold(arr[1], arr[0], \acc, cur -> switch(cur) {
+        ToAdd(arg) : Add(acc, arg);
+        ToSub(arg) : Sub(acc, arg);
+    })
+}
+
+
+calculate(e : Expr, vars : Tree<string, RatNum>) -> Maybe<RatNum> {
+    switch(e) {
+        Mul(l, r) : maybeMap2(ratMul)(calculate(l, vars), calculate(r, vars));
+        Div(l, r) : maybeMap2(ratDiv)(calculate(l, vars), calculate(r, vars));
+        Add(l, r) : maybeMap2(ratSum)(calculate(l, vars), calculate(r, vars));
+        Sub(l, r) : maybeMap2(ratSub)(calculate(l, vars), calculate(r, vars));
+        Neg(a) : maybeMap(calculate(a, vars), ratNeg);
+        Var(name) : lookupTree(vars, name);
+        IntConst(c) : Some(RatNum(c, 1));
+    }
+}
+
+e2s(e: Expr) -> string {
+    switch(e) {
+        IntConst(c) : i2s(c);
+        Mul(l, r) : "(" + e2s(l) + " * " + e2s(r) + ")";
+        Div(l, r) : "(" + e2s(l) + " / " + e2s(r) + ")";
+        Add(l, r) : "(" + e2s(l) + " + " + e2s(r) + ")";
+        Sub(l, r) : "(" + e2s(l) + " - " + e2s(r) + ")";
+        Neg(v) : "(-" + e2s(v) + ")";
+        Var(v) : v;
+    }
+}
+
+
+parse(src : string) -> Expr {
+    parsic(grammarOp, src, specialPegActions);
+}
+
+derivate(e : Expr, by : string) -> Expr {
+    switch(e) {
+        Mul(l, r) : Add(Mul(derivate(l, by), r), Mul(l, derivate(r, by)));
+        Div(l, r) : Div(Sub(Mul(derivate(l, by), r), Mul(l, derivate(r, by))), Mul(r, r));
+        Add(l, r) : Add(derivate(l, by), derivate(r, by));
+        Sub(l, r) : Sub(derivate(l, by), derivate(r, by));
+        Neg(a) : Neg(derivate(e, by));
+        IntConst(c) : IntConst(0);
+        Var(name) : {
+            if (name == by) {
+                IntConst(1);
+            } else {
+                IntConst(0);
+            }
+        };
+    }
+}
+
+
+simplifyExpr(e : Expr) -> Expr {
+    switch(e) {
+        Mul(l, r) : {
+            simpleLeft = simplifyExpr(l);
+            simpleRight = simplifyExpr(r);
+            if (simpleLeft == IntConst(1)) {
+                simpleRight;
+            } else if (simpleRight == IntConst(1)) {
+                simpleLeft;
+            } else if (simpleLeft == IntConst(0) || simpleRight == IntConst(0)) {
+                IntConst(0);
+            } else {
+                Mul(simpleLeft, simpleRight);
+            }
+        }
+        Div(l, r) : {
+            simpleLeft = simplifyExpr(l);
+            simpleRight = simplifyExpr(r);
+            if (simpleLeft == IntConst(0)) {
+                IntConst(0);
+            } else if (simpleRight == IntConst(1)) {
+                simpleLeft;
+            } else if (simpleLeft == simpleRight) {
+                IntConst(1);
+            } else {
+                Div(simpleLeft, simpleRight);
+            }
+        }
+        Add(l, r) : {
+            simpleLeft = simplifyExpr(l);
+            simpleRight = simplifyExpr(r);
+            if (simpleLeft == IntConst(0)) {
+                simpleRight;
+            } else if (simpleRight == IntConst(0)) {
+                simpleLeft;
+            } else {
+                Add(simpleLeft, simpleRight);
+            }
+        }
+        Sub(l, r) : {
+            simpleLeft = simplifyExpr(l);
+            simpleRight = simplifyExpr(r);
+            if (simpleLeft == IntConst(0)) {
+                Neg(simpleRight);
+            } else if (simpleRight == IntConst(0)) {
+                simpleLeft;
+            } else if (simpleLeft == simpleRight) {
+                IntConst(0);
+            } else {
+                Sub(simpleLeft, simpleRight);
+            }
+        }
+        default : e;
+    }
+}
+
+main() {
+    vars = [Pair("x", RatNum(1, 2))];
+    tree = setTreeValues(TreeEmpty(), vars);
+    expr = parse("x + 1/2");
+    println(simplifyExpr(derivate(expr, "x")));
+    t = e2s(expr);
+    println(t);
+    println(calculate(expr, tree));
+    quit(0);
+}

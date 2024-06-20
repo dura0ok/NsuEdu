@@ -1,0 +1,162 @@
+import ds/list;
+import string;
+import lingo/pegcode/driver;
+
+Expr ::= IntConst, MulRpn, AddRpn;
+IntConst(value : int);
+MulRpn();
+AddRpn();
+
+
+StandardExpr ::= Int, Mul, Add;
+Mul(left : StandardExpr, right : StandardExpr);
+Add(left : StandardExpr, right : StandardExpr);
+Int(val : int);
+
+
+grammarOp = compilePegGrammar("#include arith.lingo");
+
+
+Item(value : ?, next : Maybe<Item<?>>);
+
+push(stack : Maybe<Item<?>>, val : ?) {
+    Item(val, stack);
+}
+
+peek(stack : Maybe<Item<?>>) -> Maybe<?> {
+    stack ?? Some(stack.value) : None();
+}
+
+pop(stack : Maybe<Item<?>>) -> Maybe<Item<?>> {
+    stack ?? stack.next : None();
+}
+
+calcByStack(e : [Expr]) -> Maybe<int> {
+    peek(fold(e, None(), \stack, expr -> switch(expr) {
+        IntConst(c) : Some(push(stack, c));
+        AddRpn() : {
+            second = peek(stack);
+            st1 = pop(stack);
+            first = peek(st1);
+            st2 = pop(st1);
+            if (isNone(second) || isNone(first)) {
+                None();
+            } else {
+                Some(push(st2, either(first, 0) + either(second, 0)));
+            }
+        }
+        MulRpn() : {
+            second = peek(stack);
+            st1 = pop(stack);
+            first = peek(st1);
+            st2 = pop(st1);
+            if (isNone(second) || isNone(first)) {
+                None();
+            } else {
+                Some(push(st2, either(first, 0) * either(second, 0)));
+            }
+        }
+    }));
+}
+
+rpnE2standardE(e : [Expr]) {
+    peek(fold(e, None(), \stack, expr -> switch(expr) {
+        IntConst(c) : Some(push(stack, Int(c)));
+        AddRpn() : {
+            second = peek(stack);
+            st1 = pop(stack);
+            first = peek(st1);
+            st2 = pop(st1);
+            // maybeMap2 / maybeMapBind?
+            if (isNone(second) || isNone(first)) {
+                None();
+            } else {
+                Some(push(st2, Add(either(first, Int(0)), either(second, Int(0)))));
+            }
+        }
+        MulRpn() : {
+            second = peek(stack);
+            st1 = pop(stack);
+            first = peek(st1);
+            st2 = pop(st1);
+            if (isNone(second) || isNone(first)) {
+                None();
+            } else {
+                Some(push(st2, Mul(either(first, Int(0)), either(second, Int(0)))));
+            }
+        }
+    }));
+}
+
+rpnToStandardStrings(e : [Expr]) -> Maybe<string> {
+    peek(fold(e, None(), \stack, expr -> switch(expr) {
+        IntConst(c) : Some(push(stack, i2s(c)));
+        AddRpn() : {
+            second = peek(stack);
+            st1 = pop(stack);
+            first = peek(st1);
+            st2 = pop(st1);
+            if (isNone(second) || isNone(first)) {
+                None();
+            } else {
+                Some(push(st2, "(" + either(first, "0") + " + " + either(second, "0") + ")"));
+            }
+        }
+        MulRpn() : {
+            second = peek(stack);
+            st1 = pop(stack);
+            first = peek(st1);
+            st2 = pop(st1);
+            if (isNone(second) || isNone(first)) {
+                None();
+            } else {
+                Some(push(st2, either(first, "0") + " * " + either(second, "0")));
+            }
+        }
+    }));
+}
+
+stand2rpn(e: StandardExpr) -> string {
+    switch(e) {
+        Int(c) : i2s(c) + " ";
+        Add(l, r) : stand2rpn(l) + stand2rpn(r) + "+ ";
+        Mul(l, r) : stand2rpn(l) + stand2rpn(r) + "* ";
+    }
+}
+
+stand2s(e : StandardExpr) -> string {
+    switch(e) {
+        Int(c) : i2s(c);
+        Add(l, r) : "(" + stand2s(l) + " + " + stand2s(r) + ")";
+        Mul(l, r) : stand2s(l) + " * " + stand2s(r);
+    }
+}
+
+
+parse(src : string) -> flow {
+    parsic(grammarOp, src, defaultPegActions);
+}
+
+main() {
+    sources = ["2 3 + 10 *"];
+    expressions = map(sources, parse);
+    println(expressions);
+    // values = map(expressions, calcByStack);
+
+    // standExprs = map(expressions, rpnE2standardE); // infix exrpessions from rpn(expressions)
+    // standStrings = map(standExprs, \expr -> {
+    //     expr ?? stand2s(expr) : "Invalid";
+    // });
+
+    // rpnStrings = map(standExprs, \expr -> {
+    //     expr ?? stand2rpn(expr) : "Invalid";
+    // })
+
+    // // println(expressions);
+    // println(values);
+    // // println(standExprs);
+    // println(standStrings);
+    // println(rpnStrings);
+
+    quit(0);
+}

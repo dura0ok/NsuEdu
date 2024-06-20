@@ -1,0 +1,3 @@
+/home/durachok/workspace/osi-labs/task2/2.4/mutex/cmake-build-debug/CMakeFiles/mutex.dir
+/home/durachok/workspace/osi-labs/task2/2.4/mutex/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/durachok/workspace/osi-labs/task2/2.4/mutex/cmake-build-debug/CMakeFiles/rebuild_cache.dir

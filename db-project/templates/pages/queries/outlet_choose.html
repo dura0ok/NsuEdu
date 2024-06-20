@@ -1,0 +1,11 @@
+<label>
+    Выбор здания:
+    <select name="outlet" id="">
+        {% if all_outlets %}
+            <option value="">По фотоцентру</option>
+        {% endif %}
+        {% for outlet in outlets %}
+            <option value="{{ outlet.id }}">{{ outlet.type }} - {{ outlet.address }}</option>
+        {% endfor %}
+    </select>
+</label>

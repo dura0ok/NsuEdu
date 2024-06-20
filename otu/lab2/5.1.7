@@ -1,0 +1,50 @@
+// Данные из эксперимента
+U = [0 1 1.5 2 2.5 3 3.5 4 4.5 5];
+V = [12 10.1 11.58 17.4 30.68 53.6 87.78 136.9 202.5 287];
+
+// Расчет линии регрессии методом наименьших квадратов
+A = [ones(U); exp(-U)]';
+coefficients = A \ V'; // Вектор коэффициентов [A B]
+
+// Функция для расчета V по заданному U с использованием найденных коэффициентов
+function result = predict(U, coefficients)
+    result = 1 ./ (coefficients(1) + coefficients(2) * exp(-U));
+endfunction
+
+// Построение графика данных и линии регрессии
+clf;
+plot(U, V, 'o', U, predict(U, coefficients), '-');
+xlabel('U');
+ylabel('V');
+legend('Данные', 'Линия регрессии', 'location', 'northwest');
+title('Линия регрессии и данные');
+
+
+// Определение функции для аппроксимации
+function y = model(p, x)
+    A = p(1);
+    B = p(2);
+    y = 1 ./ (A + B*exp(-x));
+endfunction
+
+// Функция для минимизации квадратичного отклонения
+function err = cost_function(p, U, V)
+    err = norm(model(p, U) - V, 2)^2;
+endfunction
+
+// Настройка параметров методом оптимизации
+initial_guess = [1 1];
+optimal_parameters = fminsearch(cost_function, initial_guess);
+
+// Вывод коэффициентов функциональной зависимости
+printf('\nКоэффициенты функциональной зависимости (A, B):\n');
+disp(optimal_parameters);
+
+// График функциональной зависимости
+plot(U, V, 'o', 'markersize', 5);
+hold on;
+plot(U, model(optimal_parameters, U), 'r');
+xlabel('U');
+ylabel('V');
+title('Функциональная зависимость');
+legend('Эксперимент', 'Модель');

@@ -1,0 +1,9 @@
+import runtime;
+import string;
+
+main() {
+  inp = [1, 2, 3];
+  res = fold(inp, 0, \x,y -> x+y);
+  println(res);
+  quit(0);
+}

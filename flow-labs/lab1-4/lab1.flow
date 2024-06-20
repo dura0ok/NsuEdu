@@ -1,0 +1,13 @@
+import runtime;
+import string;
+
+ctstr(arr: [int]) -> [string] {
+  map(arr, i2s);
+}
+
+main() {
+  inp = [1, 2, 3];
+  result = strGlue(ctstr(inp), ", ");
+  println(result);
+  quit(0);
+}

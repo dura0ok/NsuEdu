@@ -1,0 +1,3 @@
+/home/durachok/workspace/osi-labs/task2/tmp2/cmake-build-debug/CMakeFiles/tmp2.dir
+/home/durachok/workspace/osi-labs/task2/tmp2/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/durachok/workspace/osi-labs/task2/tmp2/cmake-build-debug/CMakeFiles/rebuild_cache.dir

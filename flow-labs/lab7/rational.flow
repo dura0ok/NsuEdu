@@ -1,0 +1,64 @@
+import math/math;
+
+export {
+	// Rational number
+	RatNum(num : int, den : int);
+
+	ratOne = RatNum(1, 1);
+	ratZero = RatNum(0, 1);
+	
+	ratSum(x : RatNum, y : RatNum) -> RatNum {
+		a = x.num * y.den + y.num * x.den;
+		b = x.den * y.den;
+		z = gcd(a, b);
+		RatNum(a / z,  b /z)
+	}
+
+	ratSub(x : RatNum, y : RatNum) -> RatNum {
+		a = x.num * y.den + y.num * x.den;
+		b = x.den * y.den;
+		z = gcd(a, b);
+		RatNum(a / z,  b /z)
+	}
+
+	ratMin(x : RatNum, y : RatNum) -> RatNum {
+		a = x.num * y.den - y.num * x.den;
+		b = x.den * y.den;
+		z = gcd(a, b);
+		RatNum(a / z,  b /z)
+	}
+
+	ratMul(x : RatNum, y : RatNum) -> RatNum {
+		a = x.num * y.num;
+		b = x.den * y.den;
+		z = gcd(a, b);
+		RatNum(a / z,  b /z)
+	}
+
+	ratDiv(x : RatNum, y : RatNum) -> RatNum {
+		a = x.num * y.den;
+		b = x.den * y.num;
+		z = gcd(a, b);
+		RatNum(a / z,  b /z)
+	}
+
+	ratNeg(x : RatNum) -> RatNum {
+		RatNum(- x.num,  x.den)
+	}
+	
+	rat2s(x : RatNum) -> string {
+		if (x.den == 0) {
+        "Divide by zero!"
+		} else if (x.den == 1) {
+			i2s(x.num);
+		} else {
+			i2s(x.num) + "/" + i2s(r.den);
+		}
+	}
+
+	simplify(rat : RatNum) -> RatNum {
+		gcd = gcd(rat.num, rat.den);
+		RatNum(rat.num / gcd, rat.den / gcd);
+	}
+
+}

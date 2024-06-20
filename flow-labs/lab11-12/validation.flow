@@ -1,0 +1,327 @@
+import nemo_grammar;
+import ds/tree;
+
+export {
+    ValidateMessage(error: bool, msg: string);
+
+    validate(program : NemoProgram) -> ValidateMessage;
+}
+
+createSuccessMessage() -> ValidateMessage {
+    ValidateMessage(false, "Success");
+}
+
+createErrorMessage(msg : string) -> ValidateMessage {
+    ValidateMessage(true, msg);
+}
+
+getTypeOfConst(c: Const) -> NemoType{
+    switch (c) {
+        IntConst(v): {
+            IntType();
+        }
+        default : NoneType(); // Impossible case
+    }
+}
+
+getTypeOfVar(v : Var, varTypes : Tree<string, NemoType>) -> NemoType {
+    lookupTreeDef(varTypes, v.name, NoneType());
+}
+
+getTypeOfArithmeticExpr(arithmeticExpr : ArithmeticExpr, varTypes : Tree<string, NemoType>) {
+    switch (arithmeticExpr) {
+        BinaryOperation(l, r, binType): {
+            leftType = getExprType(l, varTypes);
+            rightType = getExprType(r, varTypes);
+            if(leftType != rightType || leftType == NoneType() || rightType == NoneType()) {
+                NoneType();
+            } else if(leftType != IntType()) {
+                NoneType();
+            } else {
+                leftType;
+            }             
+       }
+
+       Neg(e): {
+         if( getExprType(e, varTypes) != IntType() ) {
+            NoneType()
+         } else {
+            IntType();
+         }
+       }
+    }
+}
+
+areTypesSimilar(t1: NemoType, t2: NemoType) -> bool {
+    if(t1 == t2) {
+        true
+    } else {
+        switch(t1){
+            ArrayType(baseType1): {
+                switch(t2) {
+                    ArrayType(baseType2): {
+                        switch(baseType1) {
+                            AnyType(): {
+                                true
+                            }
+                            default: {
+                                switch(baseType2) {
+                                    AnyType(): {
+                                        true
+                                    }
+                                    default: {
+                                        false
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    default: {
+                        false;
+                    }
+                }
+            }
+            default: {
+                false;
+            }  
+        }
+    }
+}
+
+chooseMostSpecificArrayType2(t1 : NemoType, t2 : NemoType) -> NemoType {
+    switch (t1) {
+        ArrayType(bt1) : {
+            if (bt1 != AnyType()) {
+                t1;
+            } else {
+                switch (t2) {
+                    ArrayType(bt2) : {
+                        t2;
+                    }
+                    
+                    default : NoneType()
+                }
+            }
+        }
+        
+        default : NoneType();
+    }
+}
+
+chooseMostSpecificArrayType(ts : [NemoType]) -> NemoType {
+    fold(ts, ArrayType(AnyType()), \acc, t -> {
+        chooseMostSpecificArrayType2(acc, t);
+    });
+}
+
+
+getTypeOfArray(array: Array, varTypes : Tree<string, NemoType>) -> NemoType {
+    if(length(array.elements) == 0) {
+        ArrayType(AnyType());
+    } else {
+        elementsTypes = map(array.elements, \el -> getExprType(el, varTypes));   
+
+        if(contains(elementsTypes, NoneType())) {
+            NoneType();
+        } else {
+            if (forall(elementsTypes, \el -> elementsTypes[0] == el)) {
+                ArrayType(elementsTypes[0]);
+            } else if (forall(elementsTypes, \el -> areTypesSimilar(elementsTypes[0], el))) {
+                chooseMostSpecificArrayType(elementsTypes);
+            } else {
+                NoneType();
+            }
+        }
+    }
+}
+
+getTypeOfArrayOperator(arrayOp: ArrayOperator, varTypes : Tree<string, NemoType>) -> NemoType {
+    switch (arrayOp) {
+        UpdOperator(arr, ind, val): {
+            if(areTypesSimilar(getExprType(arr, varTypes), ArrayType(getExprType(val, varTypes))) && getExprType(ind, varTypes) == IntType()) {
+                // TODO VYNESTI
+                chooseMostSpecificArrayType([getExprType(arr, varTypes), ArrayType(getExprType(val, varTypes))]);
+            } else {
+                NoneType();
+            }
+        }
+
+        AppOperator(arr, ind): {
+            switch(getExprType(arr, varTypes)){
+                ArrayType(b): {
+                    if(getExprType(ind, varTypes) == IntType()){
+                        b;
+                    }else{
+                        NoneType();
+                    }
+                }
+                default: {
+                    NoneType();
+                }
+            }
+        }
+        
+        ConcatOperator(arr1, arr2): {
+            if(areTypesSimilar(getExprType(arr1, varTypes), getExprType(arr2, varTypes))){
+                chooseMostSpecificArrayType([getExprType(arr1, varTypes), getExprType(arr2, varTypes)]);
+            }else{
+                NoneType();
+            }
+        }
+
+        LengthOperator(arr1): {
+            switch (getExprType(arr1, varTypes)) {
+                ArrayType(baseType): {
+                    IntType();
+                }
+                default: {
+                    NoneType();
+                }
+            }
+        }
+    }
+}
+
+getExprType(expr : Expr, varTypes : Tree<string, NemoType>) -> NemoType {
+    switch (expr) {
+        Const(): getTypeOfConst(expr);
+
+        Var(name):  getTypeOfVar(expr, varTypes);
+
+        ArithmeticExpr(): getTypeOfArithmeticExpr(expr, varTypes);
+
+        Array(elements): getTypeOfArray(expr, varTypes);
+
+        ArrayOperator(): getTypeOfArrayOperator(expr, varTypes);
+    }
+}
+
+isCondValid(cond: Cond, varTypes : Tree<string, NemoType>) -> bool {
+   
+    switch (cond) {
+        Comparison(l, r, cmpType) : {
+            lType = getExprType(l, varTypes);
+            rType = getExprType(r, varTypes);
+
+            if (lType == NoneType() || rType == NoneType() || !areTypesSimilar(rType, lType)) {
+                false;
+            } else {
+                switch (cmpType) {
+                    EqualOperator() : true;
+                    default: {
+                        lType == IntType();
+                    }
+
+                }
+            }
+        }
+        
+        And(l, r): {
+            isCondValid(l, varTypes) && isCondValid(r, varTypes);
+        }
+
+        Or(l, r): {
+            isCondValid(l, varTypes) && isCondValid(r, varTypes);
+        }
+
+        Not(el): {
+            isCondValid(el, varTypes)
+        }
+    }
+}
+
+validateVarDeclList(varDeclList : [VarDecl]) -> ValidateMessage {
+     vars: Tree<string, int> = fold(
+        varDeclList,
+        makeTree(),
+        \acc, decl -> {
+            varName = decl.var.name;
+            incTreeValue(acc, varName);
+        }
+    );
+
+    foldTree(
+        vars,
+        createSuccessMessage(),
+        \k, v, acc -> {
+            if (acc.error || v == 1) {
+                acc;
+            } else {
+                createErrorMessage("Redeclaration of " + k);
+            }
+        }
+    );
+}
+
+validateBodies(bodies: [Body], varTypes : Tree<string, NemoType>) -> ValidateMessage {
+    fold(
+        bodies, 
+        createSuccessMessage(),
+        \acc, b -> {
+            if (acc.error) {
+                acc;
+            } else {
+                validateBody(b, varTypes);
+            }
+        }
+    );
+}
+
+validateBody(body : Body, varTypes : Tree<string, NemoType>) {
+    switch (body) {
+        Assignment(v, e) : {
+            if(getTypeOfVar(v, varTypes) == NoneType()) {
+                createErrorMessage("Variable " + v.name + " is undeclared :(");
+            }else if(areTypesSimilar(getTypeOfVar(v, varTypes), getExprType(e, varTypes))) {
+                createSuccessMessage();
+            }else{
+                createErrorMessage(":( Types mismatch " + v.name + " and " + toString(e));
+            }
+        }
+        Print(e): {
+            if(getExprType(e, varTypes) != NoneType()) {
+                createSuccessMessage();
+            }else{
+                createErrorMessage(":( Cannot determine type of expressing in print :(");
+            }
+        }
+
+        BodiesSeq(bodies): {
+            validateBodies(bodies, varTypes);
+        }
+
+        Test(c): {
+            if(isCondValid(c, varTypes)) {
+                createSuccessMessage();
+            }else{
+                createErrorMessage(":( Incorrect cond " + toString(c));
+            }
+        }
+
+        NonDeterministicIteration(b): {
+            validateBody(b, varTypes);
+        }
+
+        NonDeterministicChoice(bodies): {
+            validateBodies(bodies, varTypes);
+        }
+    }
+}
+
+validate(program : NemoProgram) -> ValidateMessage {
+    varDeclList = program.varDeclList;
+
+    varDeclListValidationMessage = validateVarDeclList(varDeclList);
+    if (varDeclListValidationMessage.error) {
+        varDeclListValidationMessage;
+    } else {
+        validateBody(
+            program.body,
+            fold(
+                varDeclList,
+                makeTree(),
+                \acc, decl -> setTree(acc, decl.var.name, decl.type)
+            )
+        );
+    }
+}

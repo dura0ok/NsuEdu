@@ -1,0 +1,4 @@
+/home/durachok/workspace/osi-labs/task1/1.6/final/build/CMakeFiles/mythread.dir
+/home/durachok/workspace/osi-labs/task1/1.6/final/build/CMakeFiles/threads_test.dir
+/home/durachok/workspace/osi-labs/task1/1.6/final/build/CMakeFiles/edit_cache.dir
+/home/durachok/workspace/osi-labs/task1/1.6/final/build/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,18 @@
+// =========== Base =============
+@import './base/reset.scss';
+@import './base/common.scss';
+
+// =========== Utils ============
+
+// ========= Components =========
+@import './components/header.scss';
+@import './components/footer.scss';
+
+// ========== Pages ===========
+@import './pages/login.scss';
+@import './pages/queries.scss';
+@import './pages/edits.scss';
+@import './pages/edit.scss';
+@import './pages/order.scss';
+
+@import "../node_modules/tabulator-tables/dist/css/tabulator.min";

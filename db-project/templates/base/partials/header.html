@@ -1,0 +1,41 @@
+<header class="header">
+    <div class="company-name">
+        <h1>Фотоцентр Ульман. CRM</h1>
+    </div>
+    <ul class="menu">
+        <li class="user-dropdown">
+            <span class="user-label">
+                {% if user.is_authenticated %}
+                    {% if user.first_name %}
+                    Привет, {{ user.first_name }}!
+                    {% else %}
+                    Привет, {{ user.username }}!
+                    {% endif %}
+                {% else %}
+                    <p>Привет, Гость!</p>
+                {% endif %}
+            </span>
+            <div class="dropdown-block">
+                <span class="dropdown-arrow">&#9660;</span>
+                <div class="dropdown-menu">
+                    <ul>
+                        <li><a href="{% url 'index' %}">Главная</a></li>
+                        {% if user.is_authenticated %}
+                            <li><a href="/admin">Административная панель</a></li>
+                            <li><a href="{% url 'create_order' %}">Создать заказ</a></li>
+                            <li><a href="{% url 'queries_list' %}">Доступные запросы</a></li>
+                            <form id="logout-form" action="{% url 'logout' %}" method="post">
+                                {% csrf_token %}
+                                <li>
+                                    <button type="submit">Выход</button>
+                                </li>
+                            </form>
+                        {% else %}
+                            <li><a href="{% url 'login' %}">Авторизация</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </li>
+    </ul>
+</header>

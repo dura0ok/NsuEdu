@@ -1,0 +1,12 @@
+import nemo_grammar;
+
+export{
+    AssignmentOperation : (varName : string, expr : Expr, labels : [int]);
+    TestOperation : (cond : Cond, ifLabels : [int], elseLabels : [int]);
+    PrintOperation : (expr : Expr, labels : [int]);
+    Operation ::= AssignmentOperation, TestOperation, PrintOperation;
+    
+    Operator : (label : int, operation : Operation);    
+    
+    VMProgram : (varDeclList : [VarDecl], operators : [Operator]); 
+}

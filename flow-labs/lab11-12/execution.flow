@@ -1,0 +1,395 @@
+import vm_grammar;
+import ds/set;
+
+export {
+    execute(prog: VMProgram) -> void;
+}
+
+MemoryState : (vars : Tree<string, Const>);
+State : (memoryState : MemoryState, nextLabel : int);
+
+NumericConst ::= IntConst;
+ExprValue ::= Const;
+
+updateMemoryState(memoryState : MemoryState, varName : string, newValue : Const) -> MemoryState {
+    MemoryState(setTree(memoryState.vars, varName, newValue));
+}
+
+const2s(c : Const) -> string {
+    switch (c) {
+        IntConst(value) : i2s(value);
+        ArrayConst(values) : {
+            "[" + foldi(values, "", \i, acc, el -> {
+                if (i == length(values) - 1) {
+                    acc + const2s(el);
+                } else {
+                    acc + const2s(el) + ", ";
+                }
+            })
+        } + "]";
+        NoValue() : "No value"; // Impossible case
+    }
+}
+
+
+findAllAcc(a : [?], fn : (?) -> bool, acc : [?]) -> [?] {
+    index = findi(a, fn);
+    eitherMap(
+        index,
+        \i -> concat3([a[i]], acc, findAllAcc(tailFrom(a, i + 1), fn, acc)),
+        acc
+    );
+}
+
+findAll(a : [?], fn : (?) -> bool) -> [?] {    
+    findAllAcc(a, fn, []);
+}
+
+
+getVarValue(varName : string, memoryState : MemoryState) -> ExprValue {
+    lookupTreeDef(memoryState.vars, varName, NoValue());
+}
+
+
+executeNumericOperation(c : NumericConst, intOp : (int) -> ExprValue) -> ExprValue {
+    switch (c) {
+        IntConst(v) : intOp(v);
+    }
+}
+
+executeBinaryNumericOperation(c1 : NumericConst, c2 : NumericConst, intOp : (int, int) -> ExprValue) -> ExprValue {
+    switch (c1) {
+        IntConst(v1) : {
+            switch (c2) {
+                IntConst(v2) : intOp(v1, v2);
+            }
+        }
+    }
+}
+
+executeNumericAdd(c1 : NumericConst, c2 : NumericConst) -> ExprValue {
+    executeBinaryNumericOperation(c1, c2, \x, y -> IntConst(x + y));
+}
+
+executeNumericSub(c1 : NumericConst, c2 : NumericConst) -> ExprValue {
+    executeBinaryNumericOperation(c1, c2, \x, y -> IntConst(x - y));
+}
+
+executeNumericMul(c1 : NumericConst, c2 : NumericConst) -> ExprValue {
+    executeBinaryNumericOperation(c1, c2, \x, y -> IntConst(x * y));
+}
+
+executeNumericDiv(c1 : NumericConst, c2 : NumericConst) -> ExprValue {    
+    executeBinaryNumericOperation(c1,c2, \x, y -> {
+            if (y == 0) {
+                NoValue();
+            } else {
+                IntConst(x / y);
+            }
+        },
+    );
+}
+
+calculateValueOfArithmExpr(expr : ArithmeticExpr, memoryState : MemoryState) -> ExprValue {
+    binaryArithmOp2Func = \op -> {
+        switch (op) {
+            AddOperationType() : executeNumericAdd;
+            SubOperationType() : executeNumericSub;
+            MulOperationType() : executeNumericMul;
+            DivOperationType() : executeNumericDiv;
+        }
+    };
+
+    switch (expr) {
+        Neg(e) : {
+            val = calculateValueOfExpr(e, memoryState);
+            switch (val) {
+                NumericConst() : executeNumericOperation(val, \i -> IntConst(-i));
+                default : NoValue();
+            }
+        }
+
+        BinaryOperation(l, r, op): {
+            lVal = calculateValueOfExpr(l, memoryState);
+            rVal = calculateValueOfExpr(r, memoryState);
+
+            switch (lVal) {
+                NumericConst() : {
+                    switch (rVal) {
+                        NumericConst() : binaryArithmOp2Func(op)(lVal, rVal);
+                        default : NoValue();
+                    }
+                }
+                
+                default : NoValue();
+            }
+        }        
+    }
+}
+
+
+updateArray(array : ExprValue, ind : ExprValue, val : ExprValue) -> ExprValue {
+    switch (array) {
+        ArrayConst(elements) : 
+            switch (ind) {
+                IntConst(i) : {
+                    switch (val) {
+                        Const() : ArrayConst(replace(elements, i, val));
+                    }
+                }
+
+            default : NoValue();
+        }
+
+        default: NoValue();
+    }
+}
+
+applyArray(array : ExprValue, ind : ExprValue) -> ExprValue {
+    switch (array) {
+        ArrayConst(elements) : 
+            switch (ind) {
+                IntConst(i) : array.elements[i];
+
+                default : NoValue();
+        }
+
+        default : NoValue();
+    }    
+}
+
+concatArrays(a1 : ExprValue, a2 : ExprValue) -> ExprValue {
+    switch (a1) {
+        ArrayConst(es1) : {
+            switch (a2) {
+                ArrayConst(es2) : ArrayConst(concat(es1, es2));
+
+                default : NoValue();
+            }
+        }
+
+        default : NoValue();
+    }
+}
+
+lengthOfArray(arr : ExprValue) -> ExprValue {
+    switch (arr) {
+        ArrayConst(elements) : IntConst(length(elements));
+
+        default : NoValue();
+    }
+}
+
+calculateValueOfArrayOp(arrayOp : ArrayOperator, memoryState : MemoryState) -> ExprValue {
+    switch (arrayOp) {
+        UpdOperator(arr, ind, expr):  {
+            arrVal = calculateValueOfExpr(arr, memoryState);
+            indVal = calculateValueOfExpr(ind, memoryState);
+            exprVal = calculateValueOfExpr(expr, memoryState);
+            updateArray(arrVal, indVal, exprVal);
+        }
+        
+        AppOperator(arr, ind): {
+            arrVal = calculateValueOfExpr(arr, memoryState);
+            indVal = calculateValueOfExpr(ind, memoryState);
+            applyArray(arrVal, indVal);
+        }
+
+        LengthOperator(arr): {
+            arrVal = calculateValueOfExpr(arr, memoryState);
+            lengthOfArray(arrVal);
+        }
+
+        ConcatOperator(arr1, arr2): {
+            arr1Val = calculateValueOfExpr(arr1, memoryState);
+            arr2Val = calculateValueOfExpr(arr2, memoryState);
+            concatArrays(arr1Val, arr2Val);
+        }
+    }
+}
+
+
+compareConstants(c1 : ExprValue, c2 : ExprValue, cmp : (int, int) -> bool) -> bool {
+    switch (c1) {
+        IntConst(v1) : {
+            switch (c2) {
+                IntConst(v2) : cmp(v1, v2);
+                
+                default : false; // Impossible case
+            }
+        }
+
+        default : false; // Impossible case
+    }
+}
+
+equalConstants(c1 : ExprValue, c2 : ExprValue) -> bool {
+    compareConstants(c1, c2, \x, y -> x == y);
+}
+
+lessConstants(c1 : ExprValue, c2 : ExprValue) -> bool {
+    compareConstants(c1, c2, \x, y -> x < y);
+}
+
+executeBoolOperation(c : bool, op : (bool) -> bool) -> bool {
+    op(c);
+}
+
+executeBinaryBoolOperation(c1 : bool, c2 : bool, op : (bool, bool) -> bool) -> bool {
+    op(c1, c2);
+}
+
+calculateValueOfExpr(expr : Expr, memoryState : MemoryState) -> ExprValue {
+    switch (expr) {
+        Const() : expr;
+        Array(elements): ArrayConst(map(elements, \e -> calculateValueOfExpr(e, memoryState)));
+        Var(name): getVarValue(name, memoryState);
+        ArithmeticExpr() : calculateValueOfArithmExpr(expr, memoryState);
+        ArrayOperator() : calculateValueOfArrayOp(expr, memoryState);
+    }
+}
+
+calculateValueOfCond(cond : Cond, memoryState : MemoryState) -> bool {
+    switch (cond) {
+        Or(l, r) : calculateValueOfCond(l, memoryState) || calculateValueOfCond(r, memoryState);
+
+        And(l, r) : calculateValueOfCond(l, memoryState) && calculateValueOfCond(r, memoryState);
+
+        Not(e) : !calculateValueOfCond(e, memoryState);
+
+        Comparison(l, r, cmpType) : {
+            lValue = calculateValueOfExpr(l, memoryState);
+            rValue = calculateValueOfExpr(r, memoryState);
+
+            switch (cmpType) {
+                LessOperator() : lessConstants(lValue, rValue);
+                GreaterOperator(): !lessConstants(lValue, rValue);
+                GreaterEqualOperator(): !lessConstants(lValue, rValue) || equalConstants(lValue, rValue);
+                LessEqualOperator() : lessConstants(lValue, rValue) || equalConstants(lValue, rValue);
+
+                EqualOperator() : equalConstants(lValue, rValue);
+            }
+        }
+    }
+}
+
+
+getInitValue(varType : NemoType) -> Const {
+    switch (varType) {
+        IntType() : IntConst(0);
+        ArrayType(baseType) : ArrayConst([]);
+        default: IntConst(-1); // Impossible case
+    }
+}
+
+createInitState(program : VMProgram) -> State {
+    initMemoryState = MemoryState(fold(
+        program.varDeclList,
+        makeTree(),
+        \acc, decl -> setTree(
+            acc,
+            decl.var.name,
+            getInitValue(decl.type)
+        )
+    ));
+    
+    State(initMemoryState, 0);
+}
+
+
+createStates(memoryState : MemoryState, labels : [int]) -> Set<State> {
+    
+    fold(
+        labels,
+        makeSet(),
+        \acc, l -> insertSet(acc, State(memoryState, l))
+    );
+}
+
+executeAssignment(state : State, operation : AssignmentOperation) -> Set<State> {
+    // println(state.memoryState);
+    // println(operation.labels);
+    // println("\n");
+    exprValue = calculateValueOfExpr(operation.expr, state.memoryState);
+    
+    switch (exprValue) {        
+        Const() : {
+            newMemoryState = updateMemoryState(state.memoryState, operation.varName, exprValue);
+            createStates(newMemoryState, operation.labels);
+        }
+    }
+}
+
+executeTest(state : State, operation : TestOperation) -> Set<State> {
+    condValue = calculateValueOfCond(operation.cond, state.memoryState);
+    gotoLabels = if (condValue) operation.ifLabels else operation.elseLabels;
+    createStates(state.memoryState, gotoLabels);
+}
+
+executePrint(state : State, operation : PrintOperation) -> Set<State> {
+    exprValue = calculateValueOfExpr(operation.expr, state.memoryState);
+
+    switch (exprValue) {
+        Const() : {
+            constRepr = const2s(exprValue);
+            println(constRepr);
+            createStates(state.memoryState, operation.labels);
+        }
+
+        NoValue() : makeSet();
+    }
+}
+
+executeOperation(state : State, operation : Operation) -> Set<State> {
+    memoryState = state.memoryState;
+    
+    switch (operation) {
+        AssignmentOperation(varName, expr, labels) : executeAssignment(state, operation);
+
+        TestOperation(cond, ifLabels, elseLabels) : executeTest(state, operation);
+        
+        PrintOperation(expr, labels) : executePrint(state, operation);
+    }   
+}
+
+moveState(state : State, operators : [Operator]) -> Set<State> {
+    nextLabel = state.nextLabel;
+    nextOperators = findAll(operators, \op -> op.label == nextLabel);
+
+    fold(
+        nextOperators,
+        makeSet(),
+        \acc, op -> mergeSets(acc, executeOperation(state, op.operation))
+    );
+}
+
+moveStates(states : Set<State>, operators : [Operator]) -> Set<State> {
+   
+    // println(states);
+    // println("\n");
+    // println(operators);
+    //  println("\n===============\n");
+    if (isEmptySet(states)) {
+        makeSet();
+    } else {
+        statesOfNextStep = foldSet(
+            states,
+            makeSet(),
+            \acc, s -> {
+                mergeSets(acc, moveState(s, operators))
+            }
+        );
+        
+        moveStates(statesOfNextStep, operators);
+    }
+}
+
+executeProgram(initState : State, program : VMProgram) -> void {
+    moveStates(makeSet1(initState), program.operators);
+    nop();
+}
+
+execute(program : VMProgram) -> void {
+    initState = createInitState(program);
+    executeProgram(initState, program);
+}

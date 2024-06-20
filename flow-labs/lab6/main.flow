@@ -1,0 +1,83 @@
+import runtime;
+import lingo/pegcode/driver;
+import maybe;
+import stack;
+import string;
+
+grammar = "#include polsk.lingo";
+
+ArRpnExp ::= ArAddRpn, ArProdRpn, ArRpnInt;
+ArAddRpn : ();
+ArProdRpn : ();
+ArRpnInt : (val: int);
+
+StandardExpr ::= Int, Mul, Add;
+Mul(left : StandardExpr, right : StandardExpr);
+Add(left : StandardExpr, right : StandardExpr);
+Int(val : int);
+
+specialPegActions = {
+    t = setTree(defaultPegActions.t, "translateToInfix", translateToInfix);
+    SemanticActions(t);
+}
+
+parse(s: string) -> StandardExpr{
+    parser = compilePegGrammar(grammar);
+    parsic(parser, s, specialPegActions);
+}
+
+
+translateToInfix(e : [flow]) -> StandardExpr{
+    st: Stack<StandardExpr> = Stack(ref []);
+    fold(e[0], st, \s, el -> switch (el : ArRpnExp) {
+        ArRpnInt(v) : {
+            Push(s, Int(v));
+            s;
+        }
+        ArProdRpn() : {
+            second = Pop(s);
+            first = Pop(s);
+            Push(s, Mul(first, second));
+            s;
+        } 
+        ArAddRpn() : {
+            second = Pop(s);
+            first = Pop(s);
+            Push(s, Add(first, second));
+            s;
+        }
+    });
+    Pop(st);
+}
+
+calculate(e : StandardExpr) -> int {
+    switch(e) {
+        Int(c) : c;
+        Add(l, r) : calculate(l) + calculate(r);
+        Mul(l, r) : calculate(l) * calculate(r);
+    }
+}
+
+toRpnString(a: StandardExpr) -> string{
+    switch(a){
+        Add(l,r): (toRpnString(l) + toRpnString(r) + "+");
+        Mul(l,r): (toRpnString(l) + toRpnString(r) + "*");
+        Int(v): (i2s(v));
+    }
+}
+
+toNormalString(a: StandardExpr) -> string{
+    switch(a){
+        Add(l,r): ("(" + toNormalString(l) + " + " + toNormalString(r) + ")");
+        Mul(l,r): ("(" + toNormalString(l) + " * " + toNormalString(r) + ")");
+        Int(v): (i2s(v));
+    }
+}
+
+main() {
+    t1 = parse("3 4 + *");
+    println(toRpnString(t1));
+    println(calculate(t1));
+   
+    quit(0);
+}   

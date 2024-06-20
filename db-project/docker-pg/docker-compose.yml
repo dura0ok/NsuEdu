@@ -1,0 +1,11 @@
+services:
+  db:
+    image: postgres
+    restart: no
+    environment:
+      POSTGRES_PASSWORD: cpp123321
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    command: [ "postgres", "-c", "client_min_messages=notice", "-c", "log_statement=all", "-c", "log_min_messages=notice" ]

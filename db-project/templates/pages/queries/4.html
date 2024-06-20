@@ -1,0 +1,11 @@
+{% extends 'pages/queries/base.html' %}
+
+{% block query-name %}
+    Получить сумму выручки с заказов (отдельно простых и срочных) на отдельные виды фоторабот <br>
+    по указанному филиалу, киоску приема заказов,<br>
+    поступивших в течение некоторого периода времени.
+{% endblock %}
+
+{% block params %}
+    {% include 'pages/queries/base_choose.html' %}
+{% endblock %}

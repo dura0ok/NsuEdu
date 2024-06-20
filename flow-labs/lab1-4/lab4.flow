@@ -1,0 +1,15 @@
+import string;
+import runtime;
+
+check(arr : [int], m : int) -> [Pair<int,int>] {
+    foldi(arr, [],\i, res1, v1 ->
+        foldi(arr, res1, \j, res2, v2 ->
+        if (v1 + v2 == m) concat(res2, [Pair(i, j)]) else res2)
+    );
+}
+
+main() {
+arr : [int] = [0, 1, 2, 3, 4, 5, 6, 2, 8, 9, 10, 11];
+println(check(arr, 11));
+quit(0);
+}

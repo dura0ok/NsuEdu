@@ -1,0 +1,60 @@
+import lingo/pegcode/driver;
+import nemo_grammar;
+
+export {
+    parse(src : string) -> NemoProgram;
+}
+
+ToMul(arg : ArithmeticExpr);
+ToDiv(arg : ArithmeticExpr);
+ToAdd(arg : ArithmeticExpr);
+ToSub(arg : ArithmeticExpr);
+ArithmOp ::= ToMul, ToDiv, ToAdd, ToSub;
+
+buildAdd(l : Expr, r : Expr) -> ArithmeticExpr {
+    BinaryOperation(l, r, AddOperationType());
+}
+
+buildSub(l : Expr, r : Expr) -> ArithmeticExpr {
+    BinaryOperation(l, r, SubOperationType());
+}
+
+buildMul(l : Expr, r : Expr) -> ArithmeticExpr {
+    BinaryOperation(l, r, MulOperationType());
+}
+
+buildDiv(l : Expr, r : Expr) -> ArithmeticExpr {
+    BinaryOperation(l, r, DivOperationType());
+}
+
+buildBinaryArithmOp(arr : [flow]) {
+    fold(
+        arr[1],
+        arr[0], 
+        \acc, cur -> switch(cur) {
+            ToAdd(arg) : buildAdd(acc, arg);
+            ToSub(arg) : buildSub(acc, arg);
+            ToMul(arg) : buildMul(acc, arg);
+            ToDiv(arg) : buildDiv(acc, arg);
+        }
+    );
+}
+
+buildChoice(arr : [flow]) {
+    NonDeterministicChoice(concat([arr[0]], arr[1]));
+}
+
+specialPegActions = {
+    pairs = [
+        Pair("buildBinaryArithmOp", buildBinaryArithmOp),
+        Pair("buildChoice", buildChoice)
+    ];
+    t = setTreeValues(defaultPegActions.t, pairs);
+    SemanticActions(t);
+}
+
+grammarOp = compilePegGrammar("#include nemo.lingo");
+
+parse(src : string) -> NemoProgram {
+    parsic(grammarOp, src, specialPegActions);
+}

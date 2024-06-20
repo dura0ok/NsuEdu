@@ -1,0 +1,29 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+    <div class="login-page">
+        <div class="form">
+            <form class="login-form" method="post" action="{% url 'login' %}">
+                {% csrf_token %}
+                <label>
+                    <input type="text" name="username" placeholder="Логин"/>
+                </label>
+                <label>
+                    <input type="password" name="password" placeholder="Пароль"/>
+                </label>
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {% for error in form.non_field_errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+
+                <button type="submit">Авторизоваться</button>
+                <p class="message">Если у вас нет логина и пароля обратитесь к <a href="#">Администратору</a></p>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'pages/queries/base.html' %}
+
+{% block query-name %}
+    Получить перечень фототоваров и фирм, их производящих<br>
+    пользуются наибольшим спросом в целом по фотоцентру, в указанном филиале.
+{% endblock %}
+
+{% block params %}
+    {% include 'pages/queries/outlet_choose.html' %}
+{% endblock %}
+

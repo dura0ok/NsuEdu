@@ -1,0 +1,19 @@
+expr = ws lowPrior;
+lowPrior = hightPrior:head (add | sub)*:tail {buildLow(:head, :tail)};
+add = ws '+' ws hightPrior:high {ToAdd(:high)};
+sub = ws '-' ws hightPrior:high {ToSub(:high)};
+
+hightPrior = token:head (mul | div)*:tail {buildHigh(:head, :tail)};
+mul = '*' ws token:t {ToMul(:t)};
+div = '/' ws token:t {ToDiv(:t)};
+
+token = unary | inPar | atom;
+unary = '-' ws token:e ws {Neg(:e)};
+inPar = '(' ws expr:e ws ')' ws {:e};
+atom = int:i ws {:i} | var:v ws {:v};
+
+int = digit+$d {IntConst(s2i($d))};
+var = letter+$v {Var($v)};
+digit = '0' - '9';
+letter = 'a' - 'z';
+ws = (' ' | '\r' | '\n' | '\t')*;

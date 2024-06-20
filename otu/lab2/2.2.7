@@ -1,0 +1,7 @@
+clear;
+x = -%pi:0.1:%pi
+for i = 1:1:length(x)
+    y(i)=2*sin(6*x(i))
+end
+polarplot(x,y);
+xgrid();

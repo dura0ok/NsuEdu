@@ -1,0 +1,163 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block content %}
+    {% csrf_token %}
+
+    <div class="order-creation-wrapper">
+        <template id="optionsSelector">
+            <div x-data="optionsSelector">
+                <div>
+                    <h4 x-text="title"></h4>
+
+                    <template x-for="(div, divIndex) of divs" :key="divIndex">
+                        <div class="form-group">
+                            <select @change="onChange" x-model="div.option" class="form-control">
+                                <option disabled value="">Выберите значение</option>
+                                <template x-for="option in availableOptions" :key="option.value">
+                                    <option
+                                        :disabled="uniqueOptions && divs.find((div) => parseInt(div.option) === option.value) !== undefined"
+                                        :value="option.value"
+                                        x-text="option.label"
+                                    ></option>
+                                </template>
+                            </select>
+                            <input
+                                @input="onCountChanged(div)"
+                                type="number"
+                                placeholder="Количество"
+                                x-model="div.count"
+                                class="form-control"
+                            />
+                            <button @click="onDeleteDiv(divIndex)" class="btn btn-danger">Удалить</button>
+
+                            <template x-if="$data.dropdownOption && dropdownOption === parseInt(div.option) && parseInt(div.count) > 0">
+                                <div>
+                                    <template x-for="i in parseInt(div.count)" :key="i">
+                                        <div>
+                                            <input type="text" @change="onChange" x-model="div.dropdownValues[i - 1]" class="form-control"/>
+                                        </div>
+                                    </template>
+                                </div>
+                            </template>
+
+                            <template x-if="$data.customFields && customFields.length > 0">
+                                <div>
+                                    <template x-for="(customField, customFieldIndex) in customFields" :key="customFieldIndex">
+                                        <div>
+                                            <input
+                                                @change="onSubmit"
+                                                type="text"
+                                                x-model="div.customFields[customField.name]"
+                                                :placeholder="customField.placeholder"
+                                                :value="customField.initialValue"
+                                                class="form-control"
+                                            />
+                                        </div>
+                                    </template>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+
+                    <button @click="onAddDiv" class="btn btn-primary" x-text="addButtonLabel"></button>
+                </div>
+            </div>
+        </template>
+
+        <div x-data="app">
+            <div x-html="status" class="status-text"></div>
+
+            <!-- Services Component -->
+            <x-component
+                template="optionsSelector"
+                x-data="{
+                    getJson: getJson,
+                    onChange: onChange,
+                    title: 'Услуги',
+                    divs: components.services,
+                    uniqueOptions: true,
+                    addButtonLabel: 'Добавить услугу',
+                    dropdownOption: 3,
+                    maxOptionsCount: { 1: 5 },
+                    availableOptions: [
+                        {% for service in services %}
+                        { label: '{{ service.name }} - {{ service.price }}', value: {{ service.id }} },
+                        {% endfor %}
+                    ]
+                }"
+            ></x-component>
+
+            <!-- Items Component -->
+            <x-component
+                template="optionsSelector"
+                x-data="{
+                    onChange: onChange,
+                    getJson: getJson,
+                    title: 'Товар',
+                    divs: components.items,
+                    uniqueOptions: true,
+                    addButtonLabel: 'Добавить пленку',
+                    availableOptions: [
+                        {% for storage_item in storage_items %}
+                        { label: '{{ storage_item.item.product_name }} - {{ storage_item.item.price }}', value: {{ storage_item.item.id }} },
+                        {% endfor %}
+                    ]
+                }"
+            ></x-component>
+
+            <!-- Print Component -->
+            <x-component
+                template="optionsSelector"
+                x-data="{
+                    onChange: onChange,
+                    getJson: getJson,
+                    title: 'Печать',
+                    divs: components.print,
+                    uniqueOptions: false,
+                    addButtonLabel: 'Добавить печать',
+                    availableOptions: [
+                        {% for print_price in print_prices %}
+                        { label: '{{ print_price }}', value: {{ print_price.id }} },
+                        {% endfor %}
+                    ],
+                    customFields: [
+                        { placeholder: 'Номер кадра', name: 'frame_number', initialValue: '1' }
+                    ]
+                }"
+            ></x-component>
+
+            <br/><br/>
+
+            <!-- Clients Selection -->
+            <select x-model="clients" @change="onChange" class="form-control">
+                <option disabled value="">Выберите значение</option>
+                {% for client in clients %}
+                    <option value="{{ client.id }}">{{ client }}</option>
+                {% endfor %}
+            </select>
+
+            <!-- Urgency Checkbox -->
+            <label class="form-check-label">
+                <input x-model="urgency" type="checkbox" @change="onChange" class="form-check-input">
+                Срочность
+            </label>
+
+            <br/><br/>
+
+            <!-- Submit Button -->
+            <button @click="onSubmit" class="btn btn-success" x-text="submitButtonLabel"></button>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block scripts %}
+    <script src="{% static 'dist/order.js' %}"></script>
+    <!-- Библиотека aplinejs-component для создания переиспользуемых компонентов на Alpine.js -->
+    <script defer src="https://unpkg.com/alpinejs-component@latest/dist/component.min.js"></script>
+
+    <!-- Библиотека Alpine.js последней версии -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+{% endblock %}

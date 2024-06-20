@@ -1,0 +1,9 @@
+clear;
+u = linspace(0,4*%pi,100);
+v = linspace(0,42*%pi,100);
+
+X = (cos(u).*u)'*(1+cos(v/2));
+Y = (u/2)'*sin(v);
+Z = (sin(u).*u)'*(1+cos(v/2));
+
+plot3d2(X,Y,Z);

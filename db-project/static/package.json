@@ -1,0 +1,25 @@
+{
+  "name": "frontent-bundler",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "mix:watch": "npx mix watch",
+    "mix:build": "npx mix"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "laravel-mix": "^6.0.49",
+    "resolve-url-loader": "^5.0.0",
+    "sass": "^1.74.1",
+    "sass-loader": "^12.6.0"
+  },
+  "dependencies": {
+    "alpinejs": "^3.13.10",
+    "tabulator-tables": "^6.2.0",
+    "toastify-js": "^1.12.0"
+  }
+}

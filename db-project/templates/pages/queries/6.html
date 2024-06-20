@@ -1,0 +1,12 @@
+{% extends 'pages/queries/base.html' %}
+
+{% block query-name %}
+    Получить количество проявленных фотопленок в рамках простых и срочных заказов<br>
+    по указанному филиалу, киоску приема заказов, фотоцентру <br>
+    в целом за некоторый период времени.
+{% endblock %}
+
+{% block params %}
+    {% include 'pages/queries/base_choose.html' %}
+{% endblock %}
+
